@@ -1,7 +1,7 @@
 {{define "content"}}
 <div class="form-wrap">
     <div class="card">
-        <h2>{{if .Recipe.ID}}Rezept bearbeiten{{else}}Neues Rezept{{end}}</h2>
+        <h2>{{if .Recipe.ID}}{{t .Lang "recipe.edit"}}{{else}}{{t .Lang "recipe.new"}}{{end}}</h2>
         {{if .Error}}
         <p class="error">{{.Error}}</p>
         {{end}}
@@ -15,40 +15,40 @@
             <input type="file" id="recipe_photo" name="recipe_photo" accept="image/*">
             {{if not .Recipe.ImagePath}}<small>Optional — Foto vom fertigen Gericht.</small>{{else}}<small>Neues Foto ersetzt das bestehende.</small>{{end}}
 
-            <label for="title">Titel</label>
+            <label for="title">{{t .Lang "recipe.title"}}</label>
             <input type="text" id="title" name="title" value="{{.Recipe.Title}}" required>
 
-            <label for="description">Kurzbeschreibung</label>
+            <label for="description">{{t .Lang "recipe.description"}}</label>
             <input type="text" id="description" name="description" value="{{.Recipe.Description}}" placeholder="Optional">
 
             <div class="form-row">
                 <div>
-                    <label for="category">Kategorie</label>
+                    <label for="category">{{t .Lang "recipe.category"}}</label>
                     <select id="category" name="category_id">
-                        <option value="">— Keine —</option>
+                        <option value="">— {{t .Lang "recipe.no_category"}} —</option>
                         {{range .Categories}}
                         <option value="{{.ID}}" {{if eq (categorySelected $.Recipe.CategoryID .ID) true}}selected{{end}}>{{.Name}}</option>
                         {{end}}
                     </select>
                 </div>
                 <div>
-                    <label for="servings">Portionen</label>
+                    <label for="servings">{{t .Lang "recipe.servings"}}</label>
                     <input type="text" id="servings" name="servings" value="{{.Recipe.Servings}}">
                 </div>
             </div>
 
             <div class="form-row">
                 <div>
-                    <label for="prep_time">Vorbereitungszeit</label>
+                    <label for="prep_time">{{t .Lang "recipe.prep_time"}}</label>
                     <input type="text" id="prep_time" name="prep_time" value="{{.Recipe.PrepTime}}" placeholder="z.B. 15 Min.">
                 </div>
                 <div>
-                    <label for="cook_time">Kochzeit</label>
+                    <label for="cook_time">{{t .Lang "recipe.cook_time"}}</label>
                     <input type="text" id="cook_time" name="cook_time" value="{{.Recipe.CookTime}}" placeholder="z.B. 30 Min.">
                 </div>
             </div>
 
-            <label>Tags</label>
+            <label>{{t .Lang "recipe.tags"}}</label>
             <input type="hidden" id="tags-hidden" name="tags" value="{{joinTags .Recipe.Tags}}">
             <div class="tag-input-wrap" id="tag-input-wrap">
                 <div class="tag-chips" id="tag-chips">
@@ -60,18 +60,18 @@
                 <div class="tag-suggest" id="tag-suggest"></div>
             </div>
 
-            <label for="source_url">Quell-URL</label>
+            <label for="source_url">{{t .Lang "recipe.source_url"}}</label>
             <input type="url" id="source_url" name="source_url" value="{{.Recipe.SourceURL}}" placeholder="Optional">
 
-            <label for="content_md">Rezept (Markdown)</label>
+            <label for="content_md">{{t .Lang "recipe.content"}}</label>
             <textarea id="content_md" name="content_md" rows="20" required>{{.Recipe.ContentMD}}</textarea>
 
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">{{if .Recipe.ID}}Speichern{{else}}Erstellen{{end}}</button>
+                <button type="submit" class="btn btn-primary">{{if .Recipe.ID}}{{t .Lang "recipe.save"}}{{else}}{{t .Lang "recipe.save"}}{{end}}</button>
                 {{if .Recipe.ID}}
-                <a href="/rezepte/{{.Recipe.ID}}" class="btn btn-outline">Abbrechen</a>
+                <a href="/rezepte/{{.Recipe.ID}}" class="btn btn-outline">{{t .Lang "recipe.cancel"}}</a>
                 {{else}}
-                <a href="/rezepte" class="btn btn-outline">Abbrechen</a>
+                <a href="/rezepte" class="btn btn-outline">{{t .Lang "recipe.cancel"}}</a>
                 {{end}}
             </div>
         </form>

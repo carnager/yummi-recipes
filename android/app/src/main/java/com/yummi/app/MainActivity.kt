@@ -78,10 +78,10 @@ fun YummiRoot() {
                                 isLoggedIn = true
                                 Result.success(Unit)
                             } else {
-                                Result.failure(Exception("Benutzername oder Passwort falsch"))
+                                Result.failure(Exception(context.getString(R.string.err_login)))
                             }
                         } catch (e: Exception) {
-                            Result.failure(Exception("Verbindung fehlgeschlagen: ${e.message}"))
+                            Result.failure(Exception(context.getString(R.string.err_connection, e.message ?: "")))
                         }
                     },
                     onRegister = { url, username, displayName, password ->
@@ -97,10 +97,10 @@ fun YummiRoot() {
                                 isLoggedIn = true
                                 Result.success(Unit)
                             } else {
-                                Result.failure(Exception("Registrierung fehlgeschlagen"))
+                                Result.failure(Exception(context.getString(R.string.err_register)))
                             }
                         } catch (e: Exception) {
-                            Result.failure(Exception("Verbindung fehlgeschlagen: ${e.message}"))
+                            Result.failure(Exception(context.getString(R.string.err_connection, e.message ?: "")))
                         }
                     },
                 )

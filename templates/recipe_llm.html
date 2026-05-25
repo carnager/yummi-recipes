@@ -1,25 +1,25 @@
 {{define "content"}}
 <div class="import-wrap">
     <div class="card">
-        <h2>KI-Erkennung</h2>
+        <h2>{{t .Lang "import.llm_title"}}</h2>
         {{if .Error}}
         <p class="error">{{.Error}}</p>
         {{end}}
         <form method="POST" action="/rezepte/neu/llm" enctype="multipart/form-data">
             <fieldset>
                 <legend>Rezept-Quelle</legend>
-                <label for="recipe_text">Text einfuegen</label>
+                <label for="recipe_text">{{t .Lang "import.llm_text"}}</label>
                 <textarea id="recipe_text" name="recipe_text" rows="10" placeholder="Rezepttext hier einfuegen...">{{.RecipeText}}</textarea>
                 <small>Einfach den Rezepttext reinkopieren — egal welches Format.</small>
 
-                <label for="source_image" style="margin-top: 1rem;">Oder: Foto vom Rezept</label>
+                <label for="source_image" style="margin-top: 1rem;">{{t .Lang "import.llm_photo"}}</label>
                 <input type="file" id="source_image" name="source_image" accept="image/*">
                 <small>Foto von einem Kochbuch, Zettel, Screenshot etc. — die KI liest den Text.</small>
             </fieldset>
 
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">Rezept erkennen</button>
-                <a href="/rezepte/neu" class="btn btn-outline">Zurueck</a>
+                <a href="/rezepte/neu" class="btn btn-outline">{{t .Lang "general.back"}}</a>
             </div>
         </form>
     </div>

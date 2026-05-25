@@ -3,12 +3,12 @@
 <button hx-post="/rezepte/{{.Recipe.ID}}/probiert"
         hx-target="#tried-btn"
         hx-swap="innerHTML"
-        class="btn btn-tried-active btn-sm">Probiert</button>
+        class="btn btn-tried-active btn-sm">{{t .Lang "recipe.tried"}}</button>
 {{else}}
 <button hx-post="/rezepte/{{.Recipe.ID}}/probiert"
         hx-target="#tried-btn"
         hx-swap="innerHTML"
-        class="btn btn-tried btn-sm">Probiert?</button>
+        class="btn btn-tried btn-sm">{{t .Lang "recipe.not_tried"}}</button>
 {{end}}
 {{end}}
 
@@ -26,12 +26,12 @@
         <button hx-post="/rezepte/{{$.Recipe.ID}}/teilen?user_id={{.ID}}&action=add"
                 hx-target="#share-list"
                 hx-swap="innerHTML"
-                class="btn btn-outline btn-sm">Teilen</button>
+                class="btn btn-outline btn-sm">{{t $.Lang "recipe.share"}}</button>
         {{end}}
     </div>
     {{end}}
 {{else}}
-    <p>Keine weiteren Benutzer vorhanden.</p>
+    <p>{{t .Lang "share.no_users"}}</p>
 {{end}}
 {{end}}
 
@@ -47,9 +47,9 @@
         {{if .Recipe.Category}}
         <span class="recipe-meta-item"><a href="/kategorien/{{.Recipe.Category.Slug}}">{{.Recipe.Category.Name}}</a></span>
         {{end}}
-        {{if .Recipe.PrepTime}}<span class="recipe-meta-item">Vorbereitung: {{.Recipe.PrepTime}}</span>{{end}}
-        {{if .Recipe.CookTime}}<span class="recipe-meta-item">Kochzeit: {{.Recipe.CookTime}}</span>{{end}}
-        {{if .Recipe.Servings}}<span class="recipe-meta-item">Portionen: {{.Recipe.Servings}}</span>{{end}}
+        {{if .Recipe.PrepTime}}<span class="recipe-meta-item">{{t .Lang "recipe.prep_time"}}: {{.Recipe.PrepTime}}</span>{{end}}
+        {{if .Recipe.CookTime}}<span class="recipe-meta-item">{{t .Lang "recipe.cook_time"}}: {{.Recipe.CookTime}}</span>{{end}}
+        {{if .Recipe.Servings}}<span class="recipe-meta-item">{{t .Lang "recipe.servings"}}: {{.Recipe.Servings}}</span>{{end}}
         <span class="recipe-meta-item">von {{.Recipe.AuthorName}}</span>
     </div>
 
@@ -64,17 +64,17 @@
     {{if .User}}
     <div class="recipe-actions-bar">
         {{if .IsOwner}}
-        <a href="/rezepte/{{.Recipe.ID}}/bearbeiten" class="btn btn-outline btn-sm">Bearbeiten</a>
+        <a href="/rezepte/{{.Recipe.ID}}/bearbeiten" class="btn btn-outline btn-sm">{{t .Lang "recipe.edit_btn"}}</a>
         <button hx-delete="/rezepte/{{.Recipe.ID}}"
-                hx-confirm="Rezept wirklich loeschen?"
+                hx-confirm="{{t .Lang "recipe.delete_confirm"}}"
                 hx-target="body"
-                class="btn btn-danger btn-sm">Loeschen</button>
+                class="btn btn-danger btn-sm">{{t .Lang "recipe.delete"}}</button>
         {{end}}
         <span id="tried-btn">
         {{template "tried_button" .}}
         </span>
         {{if .IsOwner}}
-        <button onclick="document.getElementById('share-dialog').showModal()" class="btn btn-outline btn-sm">Teilen</button>
+        <button onclick="document.getElementById('share-dialog').showModal()" class="btn btn-outline btn-sm">{{t .Lang "recipe.share"}}</button>
         {{end}}
     </div>
     {{end}}
@@ -84,7 +84,7 @@
     {{end}}
 
     {{if .Recipe.SourceURL}}
-    <p class="recipe-source"><a href="{{.Recipe.SourceURL}}" target="_blank" rel="noopener">Originalrezept ansehen &rarr;</a></p>
+    <p class="recipe-source"><a href="{{.Recipe.SourceURL}}" target="_blank" rel="noopener">{{t .Lang "recipe.source"}} &rarr;</a></p>
     {{end}}
 
     <div class="recipe-content">
@@ -97,7 +97,7 @@
     <article>
         <header>
             <button aria-label="Schliessen" rel="prev" onclick="this.closest('dialog').close()"></button>
-            <h3>Rezept teilen</h3>
+            <h3>{{t .Lang "share.title"}}</h3>
         </header>
         <div id="share-list">
             {{template "share_list" .}}

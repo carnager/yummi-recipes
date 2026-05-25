@@ -8,7 +8,9 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.yummi.app.R
 import com.yummi.app.data.api.ApiRecipe
 import com.yummi.app.data.api.YummiApi
 import com.yummi.app.ui.components.RecipeCard
@@ -68,7 +70,7 @@ fun MyRecipesScreen(
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
-                        text = "Noch keine Rezepte",
+                        text = stringResource(R.string.no_recipes_yet),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -80,7 +82,7 @@ fun MyRecipesScreen(
                 ) {
                     if (ownRecipes.isNotEmpty()) {
                         item(key = "header-own") {
-                            SectionHeader("Meine Rezepte", ownRecipes.size)
+                            SectionHeader(stringResource(R.string.own_recipes), ownRecipes.size)
                         }
                         items(ownRecipes, key = { "own-${it.id}" }) { recipe ->
                             RecipeCard(
@@ -94,7 +96,7 @@ fun MyRecipesScreen(
                     if (sharedRecipes.isNotEmpty()) {
                         item(key = "header-shared") {
                             Spacer(modifier = Modifier.height(8.dp))
-                            SectionHeader("Mit mir geteilt", sharedRecipes.size)
+                            SectionHeader(stringResource(R.string.shared_with_me), sharedRecipes.size)
                         }
                         items(sharedRecipes, key = { "shared-${it.id}" }) { recipe ->
                             RecipeCard(

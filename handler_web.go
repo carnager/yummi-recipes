@@ -36,6 +36,7 @@ type PageData struct {
 	Tried         bool
 	RecipeText    string
 	EditUser      User
+	Lang                    Lang
 	RegEnabled              bool
 	LLMClassify             bool
 	LLMCleanInstructions    bool
@@ -48,6 +49,7 @@ func (app *App) render(w http.ResponseWriter, r *http.Request, tmpl string, data
 		data = &PageData{}
 	}
 	data.User = ctxUser(r)
+	data.Lang = app.detectLang(r)
 	data.RegEnabled = app.store.RegistrationEnabled()
 	data.LLMClassify = app.store.GetSetting("llm_classify") != "0"
 	data.LLMCleanInstructions = app.store.GetSetting("llm_clean_instructions") != "0"
@@ -76,6 +78,10 @@ func (app *App) setFlash(w http.ResponseWriter, msg string) {
 	http.SetCookie(w, &http.Cookie{Name: "flash", Value: msg, Path: "/", MaxAge: 5})
 }
 
+func (app *App) flash(w http.ResponseWriter, r *http.Request, key string) {
+	app.setFlash(w, T(app.detectLang(r), key))
+}
+
 // --- Auth handlers ---
 
 func (app *App) loginPage(w http.ResponseWriter, r *http.Request) {
@@ -92,7 +98,8 @@ func (app *App) loginSubmit(w http.ResponseWriter, r *http.Request) {
 
 	user, err := app.store.GetUserByUsername(username)
 	if err != nil || !checkPassword(user.PasswordHash, password) {
-		app.render(w, r, "login.html", &PageData{Title: "Anmelden", Error: "Benutzername oder Passwort falsch."})
+		lang := app.detectLang(r)
+		app.render(w, r, "login.html", &PageData{Title: T(lang, "auth.login_title"), Error: T(lang, "auth.err_invalid")})
 		return
 	}
 
@@ -131,28 +138,29 @@ func (app *App) registerSubmit(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 	password2 := r.FormValue("password2")
 
+	lang := app.detectLang(r)
 	if username == "" || password == "" {
-		app.render(w, r, "register.html", &PageData{Title: "Registrieren", Error: "Benutzername und Passwort sind erforderlich."})
+		app.render(w, r, "register.html", &PageData{Title: T(lang, "auth.register_title"), Error: T(lang, "auth.err_fields")})
 		return
 	}
 	if len(password) < 6 {
-		app.render(w, r, "register.html", &PageData{Title: "Registrieren", Error: "Passwort muss mindestens 6 Zeichen lang sein."})
+		app.render(w, r, "register.html", &PageData{Title: T(lang, "auth.register_title"), Error: T(lang, "auth.err_password_len")})
 		return
 	}
 	if password != password2 {
-		app.render(w, r, "register.html", &PageData{Title: "Registrieren", Error: "Passwoerter stimmen nicht ueberein."})
+		app.render(w, r, "register.html", &PageData{Title: T(lang, "auth.register_title"), Error: T(lang, "auth.err_password_match")})
 		return
 	}
 
 	hash, err := hashPassword(password)
 	if err != nil {
-		app.render(w, r, "register.html", &PageData{Title: "Registrieren", Error: "Fehler beim Erstellen des Kontos."})
+		app.render(w, r, "register.html", &PageData{Title: T(lang, "auth.register_title"), Error: T(lang, "auth.err_create")})
 		return
 	}
 
 	userID, err := app.store.CreateUser(username, displayName, hash)
 	if err != nil {
-		app.render(w, r, "register.html", &PageData{Title: "Registrieren", Error: "Benutzername bereits vergeben."})
+		app.render(w, r, "register.html", &PageData{Title: T(lang, "auth.register_title"), Error: T(lang, "auth.err_exists")})
 		return
 	}
 
@@ -364,7 +372,7 @@ func (app *App) recipeCreate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.saveTags(recipeID, r.FormValue("tags"))
-	app.setFlash(w, "Rezept erstellt!")
+	app.flash(w, r, "flash.recipe_created")
 	http.Redirect(w, r, fmt.Sprintf("/rezepte/%d", recipeID), http.StatusSeeOther)
 }
 
@@ -680,6 +688,9 @@ func (app *App) saveTags(recipeID int64, tagsStr string) {
 
 func templateFuncs() template.FuncMap {
 	return template.FuncMap{
+		"t": func(lang Lang, key string) string {
+			return T(lang, key)
+		},
 		"markdown": func(s string) template.HTML {
 			return template.HTML(renderMarkdown(s))
 		},
@@ -1085,6 +1096,6 @@ func (app *App) adminImportSubmit(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Printf("Import: %d/%d Rezepte importiert", imported, len(recipes))
-	app.setFlash(w, fmt.Sprintf("%d Rezepte importiert.", imported))
+	app.setFlash(w, fmt.Sprintf(T(app.detectLang(r), "flash.imported_count"), imported))
 	http.Redirect(w, r, "/admin/benutzer", http.StatusSeeOther)
 }

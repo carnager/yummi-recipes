@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Yummi</string>
+
+    <!-- Auth -->
+    <string name="login">Anmelden</string>
+    <string name="register">Registrieren</string>
+    <string name="create_account">Konto erstellen</string>
+    <string name="sign_in">Anmelden</string>
+    <string name="username">Benutzername</string>
+    <string name="password">Passwort</string>
+    <string name="display_name">Anzeigename</string>
+    <string name="server_url">Server-URL</string>
+    <string name="no_account">Kein Konto? Registrieren</string>
+    <string name="has_account">Bereits ein Konto? Anmelden</string>
+    <string name="toggle_theme">Theme wechseln</string>
+    <string name="err_login">Benutzername oder Passwort falsch</string>
+    <string name="err_register">Registrierung fehlgeschlagen</string>
+    <string name="err_connection">Verbindung fehlgeschlagen: %s</string>
+
+    <!-- Navigation -->
+    <string name="nav_recipes">Rezepte</string>
+    <string name="nav_categories">Kategorien</string>
+    <string name="nav_my_recipes">Meine</string>
+    <string name="back">Zurück</string>
+    <string name="logout">Abmelden</string>
+
+    <!-- Recipes -->
+    <string name="search_recipes">Rezepte suchen…</string>
+    <string name="clear_search">Suche leeren</string>
+    <string name="no_recipes_found">Keine Rezepte gefunden</string>
+    <string name="no_recipes_yet">Noch keine Rezepte</string>
+    <string name="new_recipe">Neues Rezept</string>
+    <string name="edit_recipe">Rezept bearbeiten</string>
+    <string name="delete_recipe">Löschen</string>
+    <string name="delete_confirm_title">Rezept löschen?</string>
+    <string name="delete_confirm_text">Dieses Rezept wird unwiderruflich gelöscht.</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="recipe_not_found">Rezept nicht gefunden</string>
+    <string name="tried">Probiert!</string>
+    <string name="not_tried">Probiert?</string>
+    <string name="share">Teilen</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="source">Quelle</string>
+    <string name="connection_error">Verbindungsfehler</string>
+    <string name="save_error">Fehler beim Speichern</string>
+
+    <!-- Recipe Form -->
+    <string name="title">Titel</string>
+    <string name="description">Beschreibung</string>
+    <string name="category">Kategorie</string>
+    <string name="no_category">Keine Kategorie</string>
+    <string name="prep_time">Vorbereitung</string>
+    <string name="cook_time">Kochzeit</string>
+    <string name="servings">Portionen</string>
+    <string name="source_url">Quell-URL</string>
+    <string name="tags_comma">Tags (kommagetrennt)</string>
+    <string name="content_markdown">Inhalt (Markdown)</string>
+    <string name="save">Speichern</string>
+
+    <!-- Import -->
+    <string name="url_import">URL Import</string>
+    <string name="url_import_desc">Rezept von einer Webseite importieren</string>
+    <string name="import_btn">Importieren</string>
+    <string name="importing">Importiere…</string>
+    <string name="import_failed">Import fehlgeschlagen</string>
+    <string name="manual_create">Manuell erstellen</string>
+    <string name="manual_create_desc">Rezept selbst eingeben</string>
+
+    <!-- Share -->
+    <string name="share_recipe">Rezept teilen</string>
+    <string name="share_link">Link teilen…</string>
+    <string name="share_with_users">Mit Benutzern teilen</string>
+    <string name="no_other_users">Keine anderen Benutzer vorhanden</string>
+
+    <!-- My Recipes -->
+    <string name="own_recipes">Eigene Rezepte</string>
+    <string name="shared_with_me">Mit mir geteilt</string>
+</resources>

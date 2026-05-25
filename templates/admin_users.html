@@ -2,8 +2,8 @@
 <div class="admin-wrap">
     <div class="card">
         <div class="page-header">
-            <h2>Benutzerverwaltung</h2>
-            <a href="/admin/benutzer/neu" class="btn btn-primary">+ Benutzer anlegen</a>
+            <h2>{{t .Lang "admin.users"}}</h2>
+            <a href="/admin/benutzer/neu" class="btn btn-primary">+ {{t .Lang "admin.new_user"}}</a>
         </div>
 
         {{if .Flash}}
@@ -14,20 +14,20 @@
             <form method="POST" action="/admin/einstellungen" class="admin-toggle-row">
                 <label>
                     <input type="checkbox" name="registration_enabled" value="1" {{if .RegEnabled}}checked{{end}} onchange="this.form.submit()">
-                    Registrierung erlauben
+                    {{t .Lang "admin.reg_enabled"}}
                 </label>
                 {{if .HasOpenAIKey}}
                 <label>
                     <input type="checkbox" name="llm_classify" value="1" {{if .LLMClassify}}checked{{end}} onchange="this.form.submit()">
-                    KI: Kategorie &amp; Tags vorschlagen
+                    {{t .Lang "admin.llm_classify"}}
                 </label>
                 <label>
                     <input type="checkbox" name="llm_clean_instructions" value="1" {{if .LLMCleanInstructions}}checked{{end}} onchange="this.form.submit()">
-                    KI: Zubereitungsschritte bereinigen
+                    {{t .Lang "admin.llm_clean"}}
                 </label>
                 <label>
                     <input type="checkbox" name="llm_rephrase_instructions" value="1" {{if .LLMRephraseInstructions}}checked{{end}} onchange="this.form.submit()">
-                    KI: Schritte vereinheitlichen &amp; umformulieren
+                    {{t .Lang "admin.llm_rephrase"}}
                 </label>
                 {{end}}
             </form>
@@ -35,19 +35,19 @@
 
         <div class="admin-settings">
             <div class="admin-toggle-row">
-                <a href="/admin/export" class="btn btn-outline btn-sm">Export (ZIP)</a>
-                <a href="/admin/import" class="btn btn-outline btn-sm">Import</a>
+                <a href="/admin/export" class="btn btn-outline btn-sm">{{t .Lang "admin.export"}}</a>
+                <a href="/admin/import" class="btn btn-outline btn-sm">{{t .Lang "admin.import"}}</a>
             </div>
         </div>
 
         <table class="admin-table">
             <thead>
                 <tr>
-                    <th>Benutzername</th>
-                    <th>Anzeigename</th>
-                    <th>Admin</th>
-                    <th>Registriert</th>
-                    <th style="text-align:right">Aktionen</th>
+                    <th>{{t .Lang "auth.username"}}</th>
+                    <th>{{t .Lang "auth.display_name"}}</th>
+                    <th>{{t .Lang "admin.is_admin"}}</th>
+                    <th>{{t .Lang "admin.registered"}}</th>
+                    <th style="text-align:right">{{t .Lang "admin.actions"}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,13 +55,13 @@
                 <tr>
                     <td>{{.Username}}</td>
                     <td>{{.DisplayName}}</td>
-                    <td>{{if .IsAdmin}}Ja{{else}}Nein{{end}}</td>
+                    <td>{{if .IsAdmin}}{{t $.Lang "general.yes"}}{{else}}{{t $.Lang "general.no"}}{{end}}</td>
                     <td>{{.CreatedAt.Format "02.01.2006"}}</td>
                     <td class="admin-actions">
-                        <a href="/admin/benutzer/{{.ID}}" class="btn btn-sm btn-outline">Bearbeiten</a>
+                        <a href="/admin/benutzer/{{.ID}}" class="btn btn-sm btn-outline">{{t $.Lang "admin.edit"}}</a>
                         {{if not .IsAdmin}}
-                        <form method="POST" action="/admin/benutzer/{{.ID}}/loeschen" style="display:inline" onsubmit="return confirm('Benutzer wirklich loeschen?')">
-                            <button type="submit" class="btn btn-sm btn-danger">Loeschen</button>
+                        <form method="POST" action="/admin/benutzer/{{.ID}}/loeschen" style="display:inline" onsubmit="return confirm('{{t $.Lang "admin.delete_confirm"}}')">
+                            <button type="submit" class="btn btn-sm btn-danger">{{t $.Lang "admin.delete_user"}}</button>
                         </form>
                         {{end}}
                     </td>

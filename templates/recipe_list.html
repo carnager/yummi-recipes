@@ -1,13 +1,13 @@
 {{define "content"}}
 <div class="page-header">
-    <h2>{{if .PageTitle}}{{.PageTitle}}{{else}}Rezepte{{end}}</h2>
-    {{if .User}}<a href="/rezepte/neu" class="btn btn-primary">+ Neues Rezept</a>{{end}}
+    <h2>{{if .PageTitle}}{{.PageTitle}}{{else}}{{t .Lang "nav.recipes"}}{{end}}</h2>
+    {{if .User}}<a href="/rezepte/neu" class="btn btn-primary">+ {{t .Lang "recipe.new"}}</a>{{end}}
 </div>
 
 <div class="search-bar">
     <input type="search"
            name="q"
-           placeholder="Rezepte suchen..."
+           placeholder="{{t .Lang "search.placeholder"}}"
            hx-get="/suche"
            hx-trigger="input changed delay:300ms, search"
            hx-target="#recipe-grid"
@@ -20,7 +20,7 @@
         {{template "recipe_card" .}}
         {{end}}
     {{else}}
-        <p class="empty-state">Noch keine Rezepte vorhanden.</p>
+        <p class="empty-state">{{t .Lang "recipe.none_yet"}}</p>
     {{end}}
 </div>
 {{end}}

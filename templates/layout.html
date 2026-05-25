@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="{{.Lang}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,21 +14,25 @@
         <div class="container">
             <a href="/rezepte" class="nav-brand">Yummi</a>
             <nav class="nav-links">
-                <a href="/rezepte">Rezepte</a>
-                <a href="/kategorien">Kategorien</a>
-                {{if .User}}<a href="/meine-rezepte">Meine Rezepte</a>{{end}}
-                {{if .User}}{{if .User.IsAdmin}}<a href="/admin/benutzer">Admin</a>{{end}}{{end}}
+                <a href="/rezepte">{{t .Lang "nav.recipes"}}</a>
+                <a href="/kategorien">{{t .Lang "nav.categories"}}</a>
+                {{if .User}}<a href="/meine-rezepte">{{t .Lang "nav.my_recipes"}}</a>{{end}}
+                {{if .User}}{{if .User.IsAdmin}}<a href="/admin/benutzer">{{t .Lang "nav.admin"}}</a>{{end}}{{end}}
             </nav>
             <div class="nav-right">
+                <span class="lang-switch">
+                    <a href="/sprache/de"{{if eq .Lang "de"}} class="active"{{end}}>DE</a>
+                    <a href="/sprache/en"{{if eq .Lang "en"}} class="active"{{end}}>EN</a>
+                </span>
                 <button class="theme-toggle" onclick="toggleTheme()" title="Design wechseln" aria-label="Design wechseln"></button>
                 {{if .User}}
                 <span class="nav-user">{{.User.DisplayName}}</span>
                 <form method="POST" action="/abmelden" style="margin:0">
-                    <button type="submit" class="btn-logout">Abmelden</button>
+                    <button type="submit" class="btn-logout">{{t .Lang "nav.logout"}}</button>
                 </form>
                 {{else}}
-                <a href="/anmelden" class="btn btn-outline btn-sm">Anmelden</a>
-                {{if .RegEnabled}}<a href="/registrieren" class="btn btn-primary btn-sm">Registrieren</a>{{end}}
+                <a href="/anmelden" class="btn btn-outline btn-sm">{{t .Lang "nav.login"}}</a>
+                {{if .RegEnabled}}<a href="/registrieren" class="btn btn-primary btn-sm">{{t .Lang "nav.register"}}</a>{{end}}
                 {{end}}
             </div>
         </div>
@@ -43,7 +47,7 @@
     </main>
 
     <footer>
-        <small>Yummi — Einfach lecker kochen</small>
+        <small>Yummi — {{t .Lang "footer.tagline"}}</small>
     </footer>
     <script>
     function toggleTheme() {

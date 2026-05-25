@@ -15,7 +15,9 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.yummi.app.R
 import com.yummi.app.data.api.ApiRecipe
 import com.yummi.app.data.api.YummiApi
 import kotlinx.coroutines.Job
@@ -39,6 +41,7 @@ fun RecipeListScreen(
     var searchJob by remember { mutableStateOf<Job?>(null) }
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
+    val connectionErrorMsg = stringResource(R.string.connection_error)
 
     suspend fun fetchRecipes(query: String? = null): List<ApiRecipe> {
         val response = if (!query.isNullOrBlank()) {
@@ -59,7 +62,7 @@ fun RecipeListScreen(
         try {
             recipes = fetchRecipes()
         } catch (e: Exception) {
-            snackbarHostState.showSnackbar("Verbindungsfehler")
+            snackbarHostState.showSnackbar(connectionErrorMsg)
         }
         isLoading = false
     }
@@ -117,7 +120,7 @@ fun RecipeListScreen(
                             contentAlignment = Alignment.Center,
                         ) {
                             Text(
-                                text = if (searchQuery.isNotBlank()) "Keine Rezepte gefunden" else "Noch keine Rezepte",
+                                text = if (searchQuery.isNotBlank()) stringResource(R.string.no_recipes_found) else stringResource(R.string.no_recipes_yet),
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
@@ -151,7 +154,7 @@ fun RecipeListScreen(
                 .align(Alignment.BottomEnd)
                 .padding(16.dp),
         ) {
-            Icon(Icons.Default.Add, contentDescription = "Neues Rezept")
+            Icon(Icons.Default.Add, contentDescription = stringResource(R.string.new_recipe))
         }
 
         SnackbarHost(
@@ -170,7 +173,7 @@ private fun SearchBar(
     OutlinedTextField(
         value = query,
         onValueChange = onQueryChange,
-        placeholder = { Text("Rezepte suchen...") },
+        placeholder = { Text(stringResource(R.string.search_recipes)) },
         leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
         trailingIcon = {
             AnimatedVisibility(
@@ -179,7 +182,7 @@ private fun SearchBar(
                 exit = fadeOut(),
             ) {
                 IconButton(onClick = onClear) {
-                    Icon(Icons.Default.Clear, contentDescription = "Suche leeren")
+                    Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.clear_search))
                 }
             }
         },

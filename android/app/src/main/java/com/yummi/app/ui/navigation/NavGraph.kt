@@ -12,12 +12,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
+import com.yummi.app.R
 import com.yummi.app.data.api.YummiApi
 import com.yummi.app.ui.screens.categories.CategoriesScreen
 import com.yummi.app.ui.screens.import_recipe.ImportScreen
@@ -45,16 +47,16 @@ sealed class Screen(val route: String) {
 }
 
 data class BottomNavItem(
-    val label: String,
+    val labelRes: Int,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
     val route: String,
 )
 
 val bottomNavItems = listOf(
-    BottomNavItem("Rezepte", Icons.Filled.Restaurant, Icons.Outlined.Restaurant, Screen.Recipes.route),
-    BottomNavItem("Kategorien", Icons.Filled.Category, Icons.Outlined.Category, Screen.Categories.route),
-    BottomNavItem("Meine", Icons.Filled.Bookmark, Icons.Outlined.BookmarkBorder, Screen.MyRecipes.route),
+    BottomNavItem(R.string.nav_recipes, Icons.Filled.Restaurant, Icons.Outlined.Restaurant, Screen.Recipes.route),
+    BottomNavItem(R.string.nav_categories, Icons.Filled.Category, Icons.Outlined.Category, Screen.Categories.route),
+    BottomNavItem(R.string.nav_my_recipes, Icons.Filled.Bookmark, Icons.Outlined.BookmarkBorder, Screen.MyRecipes.route),
 )
 
 private val enterTransition: EnterTransition = fadeIn(tween(200)) + slideInHorizontally(tween(250)) { it / 4 }
@@ -92,7 +94,7 @@ fun YummiNavGraph(
                 navigationIcon = {
                     if (!showBottomBar) {
                         IconButton(onClick = { navController.popBackStack() }) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Zurück")
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                         }
                     }
                 },
@@ -100,12 +102,12 @@ fun YummiNavGraph(
                     IconButton(onClick = onToggleTheme) {
                         Icon(
                             if (isDarkMode) Icons.Filled.LightMode else Icons.Filled.DarkMode,
-                            contentDescription = "Theme wechseln",
+                            contentDescription = stringResource(R.string.toggle_theme),
                         )
                     }
                     if (showBottomBar) {
                         IconButton(onClick = onLogout) {
-                            Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = "Abmelden")
+                            Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = stringResource(R.string.logout))
                         }
                     }
                 },
@@ -136,10 +138,10 @@ fun YummiNavGraph(
                             icon = {
                                 Icon(
                                     if (selected) item.selectedIcon else item.unselectedIcon,
-                                    contentDescription = item.label,
+                                    contentDescription = stringResource(item.labelRes),
                                 )
                             },
-                            label = { Text(item.label) },
+                            label = { Text(stringResource(item.labelRes)) },
                             colors = NavigationBarItemDefaults.colors(
                                 selectedIconColor = MaterialTheme.colorScheme.primary,
                                 selectedTextColor = MaterialTheme.colorScheme.primary,

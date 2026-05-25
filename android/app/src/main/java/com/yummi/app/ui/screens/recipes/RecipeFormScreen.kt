@@ -10,7 +10,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.yummi.app.R
 import com.yummi.app.data.api.*
 import kotlinx.coroutines.launch
 
@@ -37,6 +39,7 @@ fun RecipeFormScreen(
     var isSaving by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
+    val saveErrorMsg = stringResource(R.string.save_error)
 
     LaunchedEffect(Unit) {
         try {
@@ -83,7 +86,7 @@ fun RecipeFormScreen(
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
-                    label = { Text("Titel") },
+                    label = { Text(stringResource(R.string.title)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     singleLine = true,
@@ -92,7 +95,7 @@ fun RecipeFormScreen(
                 OutlinedTextField(
                     value = description,
                     onValueChange = { description = it },
-                    label = { Text("Beschreibung") },
+                    label = { Text(stringResource(R.string.description)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     maxLines = 3,
@@ -107,7 +110,7 @@ fun RecipeFormScreen(
                         value = categories.find { it.id == selectedCategoryId }?.name ?: "",
                         onValueChange = {},
                         readOnly = true,
-                        label = { Text("Kategorie") },
+                        label = { Text(stringResource(R.string.category)) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = categoryExpanded) },
                         modifier = Modifier.fillMaxWidth().menuAnchor(),
                         shape = RoundedCornerShape(12.dp),
@@ -117,7 +120,7 @@ fun RecipeFormScreen(
                         onDismissRequest = { categoryExpanded = false },
                     ) {
                         DropdownMenuItem(
-                            text = { Text("Keine Kategorie") },
+                            text = { Text(stringResource(R.string.no_category)) },
                             onClick = {
                                 selectedCategoryId = null
                                 categoryExpanded = false
@@ -140,7 +143,7 @@ fun RecipeFormScreen(
                     OutlinedTextField(
                         value = prepTime,
                         onValueChange = { prepTime = it },
-                        label = { Text("Vorbereitung") },
+                        label = { Text(stringResource(R.string.prep_time)) },
                         modifier = Modifier.weight(1f),
                         shape = RoundedCornerShape(12.dp),
                         singleLine = true,
@@ -148,7 +151,7 @@ fun RecipeFormScreen(
                     OutlinedTextField(
                         value = cookTime,
                         onValueChange = { cookTime = it },
-                        label = { Text("Kochzeit") },
+                        label = { Text(stringResource(R.string.cook_time)) },
                         modifier = Modifier.weight(1f),
                         shape = RoundedCornerShape(12.dp),
                         singleLine = true,
@@ -158,7 +161,7 @@ fun RecipeFormScreen(
                 OutlinedTextField(
                     value = servings,
                     onValueChange = { servings = it },
-                    label = { Text("Portionen") },
+                    label = { Text(stringResource(R.string.servings)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     singleLine = true,
@@ -167,7 +170,7 @@ fun RecipeFormScreen(
                 OutlinedTextField(
                     value = sourceUrl,
                     onValueChange = { sourceUrl = it },
-                    label = { Text("Quell-URL") },
+                    label = { Text(stringResource(R.string.source_url)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     singleLine = true,
@@ -176,7 +179,7 @@ fun RecipeFormScreen(
                 OutlinedTextField(
                     value = tags,
                     onValueChange = { tags = it },
-                    label = { Text("Tags (kommagetrennt)") },
+                    label = { Text(stringResource(R.string.tags_comma)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     singleLine = true,
@@ -185,7 +188,7 @@ fun RecipeFormScreen(
                 OutlinedTextField(
                     value = contentMd,
                     onValueChange = { contentMd = it },
-                    label = { Text("Inhalt (Markdown)") },
+                    label = { Text(stringResource(R.string.content_markdown)) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(min = 200.dp),
@@ -224,10 +227,10 @@ fun RecipeFormScreen(
                             val saved = resp.body()
                             onSaved(saved?.id ?: recipeId ?: 0)
                         } else {
-                            snackbarHostState.showSnackbar("Fehler beim Speichern")
+                            snackbarHostState.showSnackbar(saveErrorMsg)
                         }
                     } catch (e: Exception) {
-                        snackbarHostState.showSnackbar(e.message ?: "Unbekannter Fehler")
+                        snackbarHostState.showSnackbar(e.message ?: saveErrorMsg)
                     }
                     isSaving = false
                 }
@@ -248,7 +251,7 @@ fun RecipeFormScreen(
                 Icon(Icons.Default.Save, contentDescription = null)
             }
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Speichern")
+            Text(stringResource(R.string.save))
         }
 
         SnackbarHost(

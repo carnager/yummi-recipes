@@ -15,8 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.yummi.app.R
 import com.yummi.app.data.api.ApiRecipe
 import com.yummi.app.data.api.YummiApi
 import com.yummi.app.ui.components.MarkdownText
@@ -74,8 +76,8 @@ fun RecipeDetailScreen(
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
             icon = { Icon(Icons.Default.DeleteForever, contentDescription = null, tint = MaterialTheme.colorScheme.error) },
-            title = { Text("Rezept loeschen?") },
-            text = { Text("Dieses Rezept wird unwiderruflich geloescht.") },
+            title = { Text(stringResource(R.string.delete_confirm_title)) },
+            text = { Text(stringResource(R.string.delete_confirm_text)) },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -84,15 +86,15 @@ fun RecipeDetailScreen(
                                 api.deleteRecipe(recipeId)
                                 onDeleted()
                             } catch (_: Exception) {
-                                snackbarHostState.showSnackbar("Loeschen fehlgeschlagen")
+                                snackbarHostState.showSnackbar("Delete failed")
                             }
                         }
                     },
                     colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
-                ) { Text("Loeschen") }
+                ) { Text(stringResource(R.string.delete_recipe)) }
             },
             dismissButton = {
-                TextButton(onClick = { showDeleteDialog = false }) { Text("Abbrechen") }
+                TextButton(onClick = { showDeleteDialog = false }) { Text(stringResource(R.string.cancel)) }
             },
         )
     }
@@ -114,7 +116,7 @@ fun RecipeDetailScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) {
-                Text("Rezept nicht gefunden", style = MaterialTheme.typography.bodyLarge)
+                Text(stringResource(R.string.recipe_not_found), style = MaterialTheme.typography.bodyLarge)
             }
         } else {
             val r = recipe!!
@@ -162,7 +164,7 @@ fun RecipeDetailScreen(
                             AssistChip(
                                 onClick = { onCategoryClick(cat.slug) },
                                 label = { Text(cat.name) },
-                                leadingIcon = { Text("📂", style = MaterialTheme.typography.bodySmall) },
+                                leadingIcon = { Text("\uD83D\uDCC2", style = MaterialTheme.typography.bodySmall) },
                                 shape = RoundedCornerShape(20.dp),
                             )
                         }
@@ -170,7 +172,7 @@ fun RecipeDetailScreen(
                             AssistChip(
                                 onClick = {},
                                 label = { Text(r.prepTime) },
-                                leadingIcon = { Text("⏱", style = MaterialTheme.typography.bodySmall) },
+                                leadingIcon = { Text("\u23F1", style = MaterialTheme.typography.bodySmall) },
                                 shape = RoundedCornerShape(20.dp),
                             )
                         }
@@ -178,7 +180,7 @@ fun RecipeDetailScreen(
                             AssistChip(
                                 onClick = {},
                                 label = { Text(r.cookTime) },
-                                leadingIcon = { Text("🔥", style = MaterialTheme.typography.bodySmall) },
+                                leadingIcon = { Text("\uD83D\uDD25", style = MaterialTheme.typography.bodySmall) },
                                 shape = RoundedCornerShape(20.dp),
                             )
                         }
@@ -186,7 +188,7 @@ fun RecipeDetailScreen(
                             AssistChip(
                                 onClick = {},
                                 label = { Text(r.servings) },
-                                leadingIcon = { Text("👥", style = MaterialTheme.typography.bodySmall) },
+                                leadingIcon = { Text("\uD83D\uDC65", style = MaterialTheme.typography.bodySmall) },
                                 shape = RoundedCornerShape(20.dp),
                             )
                         }
@@ -244,7 +246,7 @@ fun RecipeDetailScreen(
                                         contentDescription = null,
                                         modifier = Modifier.size(18.dp),
                                     )
-                                    Text(if (isTried) "Probiert!" else "Probiert?")
+                                    Text(if (isTried) stringResource(R.string.tried) else stringResource(R.string.not_tried))
                                 }
                             }
                         }
@@ -263,7 +265,7 @@ fun RecipeDetailScreen(
                                 modifier = Modifier.size(18.dp),
                             )
                             Spacer(modifier = Modifier.width(6.dp))
-                            Text("Teilen")
+                            Text(stringResource(R.string.share))
                         }
 
                         if (r.createdBy == currentUserId) {
@@ -277,7 +279,7 @@ fun RecipeDetailScreen(
                                     modifier = Modifier.size(18.dp),
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
-                                Text("Bearbeiten")
+                                Text(stringResource(R.string.edit))
                             }
 
                             FilledTonalButton(
@@ -294,7 +296,7 @@ fun RecipeDetailScreen(
                                     modifier = Modifier.size(18.dp),
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
-                                Text("Löschen")
+                                Text(stringResource(R.string.delete_recipe))
                             }
                         }
                     }

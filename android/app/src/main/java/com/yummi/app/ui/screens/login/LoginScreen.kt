@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -24,6 +25,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.yummi.app.R
 import com.yummi.app.ui.theme.YummiOrange
 
 @Composable
@@ -55,7 +57,7 @@ fun LoginScreen(
         ) {
             Icon(
                 if (isDarkMode) Icons.Filled.LightMode else Icons.Filled.DarkMode,
-                contentDescription = "Theme wechseln",
+                contentDescription = stringResource(R.string.toggle_theme),
             )
         }
 
@@ -80,7 +82,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = if (isRegisterMode) "Konto erstellen" else "Anmelden",
+            text = if (isRegisterMode) stringResource(R.string.create_account) else stringResource(R.string.sign_in),
             style = MaterialTheme.typography.headlineMedium,
         )
 
@@ -90,7 +92,7 @@ fun LoginScreen(
         OutlinedTextField(
             value = serverUrl,
             onValueChange = { serverUrl = it },
-            label = { Text("Server-URL") },
+            label = { Text(stringResource(R.string.server_url)) },
             placeholder = { Text("https://yummi.example.com") },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
@@ -109,7 +111,7 @@ fun LoginScreen(
         OutlinedTextField(
             value = username,
             onValueChange = { username = it },
-            label = { Text("Benutzername") },
+            label = { Text(stringResource(R.string.username)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
@@ -124,7 +126,7 @@ fun LoginScreen(
             OutlinedTextField(
                 value = displayName,
                 onValueChange = { displayName = it },
-                label = { Text("Anzeigename") },
+                label = { Text(stringResource(R.string.display_name)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
@@ -140,7 +142,7 @@ fun LoginScreen(
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Passwort") },
+            label = { Text(stringResource(R.string.password)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
@@ -194,7 +196,7 @@ fun LoginScreen(
                 )
             } else {
                 Text(
-                    text = if (isRegisterMode) "Registrieren" else "Anmelden",
+                    text = if (isRegisterMode) stringResource(R.string.register) else stringResource(R.string.sign_in),
                     style = MaterialTheme.typography.labelLarge,
                 )
             }
@@ -219,7 +221,7 @@ fun LoginScreen(
             error = null
         }) {
             Text(
-                text = if (isRegisterMode) "Bereits ein Konto? Anmelden" else "Kein Konto? Registrieren",
+                text = if (isRegisterMode) stringResource(R.string.has_account) else stringResource(R.string.no_account),
                 color = MaterialTheme.colorScheme.primary,
             )
         }

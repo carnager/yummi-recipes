@@ -10,8 +10,8 @@
             <input type="file" id="import_file" name="import_file" accept=".zip" required>
             <small>ZIP-Datei aus einem Yummi-Export. Rezepte werden als neue Eintraege angelegt.</small>
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Importieren</button>
-                <a href="/admin/benutzer" class="btn btn-outline">Abbrechen</a>
+                <button type="submit" class="btn btn-primary">{{t .Lang "import.submit"}}</button>
+                <a href="/admin/benutzer" class="btn btn-outline">{{t .Lang "recipe.cancel"}}</a>
             </div>
         </form>
     </div>

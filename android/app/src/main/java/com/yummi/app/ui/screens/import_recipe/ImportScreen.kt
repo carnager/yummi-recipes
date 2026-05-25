@@ -10,7 +10,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.yummi.app.R
 import com.yummi.app.data.api.ImportRequest
 import com.yummi.app.data.api.YummiApi
 import kotlinx.coroutines.launch
@@ -26,6 +28,8 @@ fun ImportScreen(
     var isImporting by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
+    val importFailedMsg = stringResource(R.string.import_failed)
+    val connectionErrorMsg = stringResource(R.string.connection_error)
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -58,11 +62,11 @@ fun ImportScreen(
                         }
                         Column {
                             Text(
-                                text = "URL Import",
+                                text = stringResource(R.string.url_import),
                                 style = MaterialTheme.typography.titleLarge,
                             )
                             Text(
-                                text = "Rezept von einer Webseite importieren",
+                                text = stringResource(R.string.url_import_desc),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
@@ -92,10 +96,10 @@ fun ImportScreen(
                                         val recipe = resp.body()
                                         onImported(recipe?.id ?: 0)
                                     } else {
-                                        snackbarHostState.showSnackbar("Import fehlgeschlagen")
+                                        snackbarHostState.showSnackbar(importFailedMsg)
                                     }
                                 } catch (e: Exception) {
-                                    snackbarHostState.showSnackbar(e.message ?: "Verbindungsfehler")
+                                    snackbarHostState.showSnackbar(e.message ?: connectionErrorMsg)
                                 }
                                 isImporting = false
                             }
@@ -117,9 +121,9 @@ fun ImportScreen(
                                         strokeWidth = 2.dp,
                                         color = MaterialTheme.colorScheme.onPrimary,
                                     )
-                                    Text("Importiere...")
+                                    Text(stringResource(R.string.importing))
                                 } else {
-                                    Text("Importieren")
+                                    Text(stringResource(R.string.import_btn))
                                 }
                             }
                         }
@@ -154,11 +158,11 @@ fun ImportScreen(
                     }
                     Column {
                         Text(
-                            text = "Manuell erstellen",
+                            text = stringResource(R.string.manual_create),
                             style = MaterialTheme.typography.titleLarge,
                         )
                         Text(
-                            text = "Rezept selbst eingeben",
+                            text = stringResource(R.string.manual_create_desc),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )

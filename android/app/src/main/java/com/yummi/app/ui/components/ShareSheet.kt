@@ -15,7 +15,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.yummi.app.R
 import com.yummi.app.data.api.ApiUser
 import com.yummi.app.data.api.ShareRequest
 import com.yummi.app.data.api.YummiApi
@@ -67,7 +69,7 @@ fun ShareBottomSheet(
                 .padding(bottom = 32.dp),
         ) {
             Text(
-                text = "Rezept teilen",
+                text = stringResource(R.string.share_recipe),
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.padding(bottom = 16.dp),
             )
@@ -81,7 +83,7 @@ fun ShareBottomSheet(
                         putExtra(Intent.EXTRA_SUBJECT, recipeTitle)
                         putExtra(Intent.EXTRA_TEXT, "$recipeTitle\n$recipeUrl")
                     }
-                    context.startActivity(Intent.createChooser(intent, "Rezept teilen"))
+                    context.startActivity(Intent.createChooser(intent, context.getString(R.string.share_recipe)))
                 },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
@@ -92,7 +94,7 @@ fun ShareBottomSheet(
                     modifier = Modifier.size(18.dp),
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Link teilen...")
+                Text(stringResource(R.string.share_link))
             }
 
             // Internal sharing (only for owner)
@@ -102,7 +104,7 @@ fun ShareBottomSheet(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "Mit Benutzern teilen",
+                    text = stringResource(R.string.share_with_users),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(bottom = 12.dp),
                 )
@@ -116,7 +118,7 @@ fun ShareBottomSheet(
                     }
                 } else if (allUsers.isEmpty()) {
                     Text(
-                        text = "Keine anderen Benutzer vorhanden",
+                        text = stringResource(R.string.no_other_users),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -183,13 +185,13 @@ private fun UserShareRow(
             if (isShared) {
                 Icon(
                     Icons.Default.PersonRemove,
-                    contentDescription = "Teilen aufheben",
+                    contentDescription = null,
                     tint = MaterialTheme.colorScheme.error,
                 )
             } else {
                 Icon(
                     Icons.Default.PersonAdd,
-                    contentDescription = "Teilen",
+                    contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
                 )
             }

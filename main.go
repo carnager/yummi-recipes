@@ -109,6 +109,19 @@ func main() {
 	mux.HandleFunc("GET /admin/import", requireAdmin(app.adminImportPage))
 	mux.HandleFunc("POST /admin/import", requireAdmin(app.adminImportSubmit))
 
+	// Language switch
+	mux.HandleFunc("GET /sprache/{lang}", func(w http.ResponseWriter, r *http.Request) {
+		lang := r.PathValue("lang")
+		if lang == "en" || lang == "de" {
+			setLangCookie(w, lang)
+		}
+		ref := r.Header.Get("Referer")
+		if ref == "" {
+			ref = "/rezepte"
+		}
+		http.Redirect(w, r, ref, http.StatusSeeOther)
+	})
+
 	// Home redirect
 	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {

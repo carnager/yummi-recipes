@@ -1,17 +1,17 @@
 {{define "content"}}
 <div class="import-wrap">
     <div class="card">
-        <h2>Rezept importieren</h2>
+        <h2>{{t .Lang "import.title"}}</h2>
         {{if .Error}}
         <p class="error">{{.Error}}</p>
         {{end}}
         <form method="POST" action="/rezepte/neu/import">
-            <label for="url">Rezept-URL</label>
-            <input type="url" id="url" name="url" placeholder="https://www.chefkoch.de/rezepte/..." required autofocus>
+            <label for="url">{{t .Lang "import.url_label"}}</label>
+            <input type="url" id="url" name="url" placeholder="{{t .Lang "import.url_placeholder"}}" required autofocus>
             <small>Unterstuetzt Webseiten mit Schema.org Rezept-Markup (die meisten Koch-Blogs).</small>
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Importieren</button>
-                <a href="/rezepte/neu" class="btn btn-outline">Zurueck</a>
+                <button type="submit" class="btn btn-primary">{{t .Lang "import.submit"}}</button>
+                <a href="/rezepte/neu" class="btn btn-outline">{{t .Lang "general.back"}}</a>
             </div>
         </form>
     </div>

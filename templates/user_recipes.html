@@ -1,9 +1,9 @@
 {{define "content"}}
 <div class="page-header">
-    <h2>Meine Rezepte</h2>
+    <h2>{{t .Lang "my.title"}}</h2>
 </div>
 
-<h3 class="section-title">Eigene Rezepte</h3>
+<h3 class="section-title">{{t .Lang "my.own"}}</h3>
 {{if .OwnRecipes}}
 <div class="grid-recipes">
     {{range .OwnRecipes}}
@@ -15,7 +15,7 @@
 {{end}}
 
 {{if .SharedRecipes}}
-<h3 class="section-title">Mit mir geteilt</h3>
+<h3 class="section-title">{{t .Lang "my.shared"}}</h3>
 <div class="grid-recipes">
     {{range .SharedRecipes}}
     <div class="recipe-card-wrap" id="shared-{{.ID}}">
@@ -31,7 +31,7 @@
 {{end}}
 
 {{if .TriedRecipes}}
-<h3 class="section-title">Probiert</h3>
+<h3 class="section-title">{{t .Lang "my.tried"}}</h3>
 <div class="grid-recipes">
     {{range .TriedRecipes}}
     {{template "recipe_card" .}}
