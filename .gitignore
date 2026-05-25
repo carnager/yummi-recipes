@@ -1,8 +1,8 @@
 # Runtime data
-data/
+/data/
 
 # Go build output
-yummi
+/yummi
 .gomodcache/
 .gobuild/
 
@@ -14,8 +14,8 @@ android/.gomodcache/
 android/local.properties
 
 # Arch packaging artifacts
-pkg/
-src/
+/pkg/
+/src/
 *.pkg.tar.zst
 
 # IDE
