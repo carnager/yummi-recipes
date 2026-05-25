@@ -1,61 +1,33 @@
 # Yummi
 
-A self-hosted recipe manager that prioritizes simplicity over feature creep.
+A self-hosted recipe manager. Single binary, SQLite, German UI.
 
-## Why Yummi?
+## Overview
 
-Most recipe managers try to be everything: meal planners, grocery list generators, nutrition calculators, social networks. Yummi does one thing well: store, organize, and find your recipes.
+Yummi stores, organizes, and searches recipes. It runs as a single Go binary with an embedded SQLite database — no external services required.
 
-### Single binary, zero dependencies
+## Features
 
-```bash
-./yummi
-```
-
-That's it. No Docker compose files, no PostgreSQL, no Redis, no Node.js build pipeline, no nginx reverse proxy configuration. One binary, one SQLite file. Put it on any Linux box and it runs.
-
-### AI-assisted import that actually works
-
-Paste a URL from any recipe site. Yummi extracts the recipe via Schema.org JSON-LD, then optionally:
-
-- **Cleans up instructions** — removes garbage steps like section headers ("Zubereitung") that parsers wrongly include as steps
-- **Rephrases for consistency** — condenses 28 repetitive layering steps into one clear sentence, standardizes voice and formatting across all your recipes
-- **Classifies automatically** — suggests matching categories and tags from your existing taxonomy
-
-Each of these is independently toggleable. No AI key? The parser works fine without it.
-
-### Native Android app
-
-Not a PWA in a webview. A proper Kotlin/Jetpack Compose app with Material 3, pull-to-refresh, haptic feedback, and offline-friendly image caching. Talks to the same REST API as the web UI.
-
-### Designed for humans, not robots
-
-- Full-text search with prefix matching — type "bor" and find "Borschtsch"
-- Recipe sharing between users — no complex permission systems, just "share with"
-- "Tried" tracking — mark what you've actually cooked
-- Categories and tags — click them anywhere to filter
-- Light/dark theme — persisted per device
-
-### What Yummi deliberately doesn't do
-
-- Meal planning
-- Grocery lists
-- Nutrition calculation
-- Social features / public profiles
-- Plugin systems
-- Multiple databases
-- Kubernetes deployment manifests
+- **URL import** — paste a link from any recipe site, extracts via Schema.org JSON-LD
+- **Full-text search** — SQLite FTS5 with prefix matching
+- **Categories and tags** — filterable, clickable everywhere
+- **Recipe sharing** — share recipes with other users on the same instance
+- **"Tried" tracking** — mark recipes you've cooked
+- **Light/dark theme** — persisted per device
+- **Optional AI processing** — on import, can clean up instructions, rephrase for consistency, and suggest categories/tags (each independently toggleable)
+- **Native Android app** — Kotlin/Jetpack Compose, Material 3, connects via REST API
+- **Admin panel** — user management, settings, data export/import
 
 ## Tech stack
 
-| Component | Choice | Why |
-|-----------|--------|-----|
-| Backend | Go + `net/http` | Single binary, no framework churn |
-| Database | SQLite (pure Go, no CGO) | Zero ops, embedded, fast |
-| Web UI | Go templates + HTMX + Pico CSS | No JS build step, instant page loads |
-| Android | Kotlin + Jetpack Compose | Native Material 3 experience |
-| Search | SQLite FTS5 | Full-text search without Elasticsearch |
-| AI | OpenAI API (optional) | gpt-4.1-nano/mini for classification and cleanup |
+| Component | Choice |
+|-----------|--------|
+| Backend | Go, `net/http`, single binary |
+| Database | SQLite via `modernc.org/sqlite` (pure Go, no CGO) |
+| Web UI | Go templates, HTMX, Pico CSS |
+| Search | SQLite FTS5 |
+| Android | Kotlin, Jetpack Compose, Material 3 |
+| AI | OpenAI API (optional, gpt-4.1-nano/mini) |
 
 ## Quick start
 
@@ -78,7 +50,7 @@ YUMMI_OPENAI_KEY=sk-... ./yummi
 
 Visit `http://localhost:8080`, register a user, start importing recipes.
 
-## Environment variables
+## Configuration
 
 | Variable | Default | Description |
 |----------|---------|-------------|
