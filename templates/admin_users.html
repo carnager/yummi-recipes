@@ -1,0 +1,74 @@
+{{define "content"}}
+<div class="admin-wrap">
+    <div class="card">
+        <div class="page-header">
+            <h2>Benutzerverwaltung</h2>
+            <a href="/admin/benutzer/neu" class="btn btn-primary">+ Benutzer anlegen</a>
+        </div>
+
+        {{if .Flash}}
+        <div class="flash" role="alert">{{.Flash}}</div>
+        {{end}}
+
+        <div class="admin-settings">
+            <form method="POST" action="/admin/einstellungen" class="admin-toggle-row">
+                <label>
+                    <input type="checkbox" name="registration_enabled" value="1" {{if .RegEnabled}}checked{{end}} onchange="this.form.submit()">
+                    Registrierung erlauben
+                </label>
+                {{if .HasOpenAIKey}}
+                <label>
+                    <input type="checkbox" name="llm_classify" value="1" {{if .LLMClassify}}checked{{end}} onchange="this.form.submit()">
+                    KI: Kategorie &amp; Tags vorschlagen
+                </label>
+                <label>
+                    <input type="checkbox" name="llm_clean_instructions" value="1" {{if .LLMCleanInstructions}}checked{{end}} onchange="this.form.submit()">
+                    KI: Zubereitungsschritte bereinigen
+                </label>
+                <label>
+                    <input type="checkbox" name="llm_rephrase_instructions" value="1" {{if .LLMRephraseInstructions}}checked{{end}} onchange="this.form.submit()">
+                    KI: Schritte vereinheitlichen &amp; umformulieren
+                </label>
+                {{end}}
+            </form>
+        </div>
+
+        <div class="admin-settings">
+            <div class="admin-toggle-row">
+                <a href="/admin/export" class="btn btn-outline btn-sm">Export (ZIP)</a>
+                <a href="/admin/import" class="btn btn-outline btn-sm">Import</a>
+            </div>
+        </div>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Benutzername</th>
+                    <th>Anzeigename</th>
+                    <th>Admin</th>
+                    <th>Registriert</th>
+                    <th style="text-align:right">Aktionen</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .Users}}
+                <tr>
+                    <td>{{.Username}}</td>
+                    <td>{{.DisplayName}}</td>
+                    <td>{{if .IsAdmin}}Ja{{else}}Nein{{end}}</td>
+                    <td>{{.CreatedAt.Format "02.01.2006"}}</td>
+                    <td class="admin-actions">
+                        <a href="/admin/benutzer/{{.ID}}" class="btn btn-sm btn-outline">Bearbeiten</a>
+                        {{if not .IsAdmin}}
+                        <form method="POST" action="/admin/benutzer/{{.ID}}/loeschen" style="display:inline" onsubmit="return confirm('Benutzer wirklich loeschen?')">
+                            <button type="submit" class="btn btn-sm btn-danger">Loeschen</button>
+                        </form>
+                        {{end}}
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+</div>
+{{end}}

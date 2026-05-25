@@ -1,0 +1,27 @@
+post_install() {
+    echo ""
+    echo "==> Yummi setup:"
+    echo ""
+    echo "  1. Create the system user and data directory:"
+    echo "     systemd-sysusers"
+    echo "     systemd-tmpfiles --create"
+    echo ""
+    echo "  2. (Optional) Edit the config:"
+    echo "     sudo nano /etc/yummi/yummi.conf"
+    echo ""
+    echo "  3. To use the config file, create a systemd override:"
+    echo "     sudo systemctl edit yummi"
+    echo "     Add:"
+    echo "       [Service]"
+    echo "       EnvironmentFile=/etc/yummi/yummi.conf"
+    echo ""
+    echo "  4. Start Yummi:"
+    echo "     sudo systemctl enable --now yummi"
+    echo ""
+    echo "  5. Open http://localhost:8080 and register your first user (becomes admin)."
+    echo ""
+}
+
+post_upgrade() {
+    post_install
+}

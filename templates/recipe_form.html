@@ -1,0 +1,239 @@
+{{define "content"}}
+<div class="form-wrap">
+    <div class="card">
+        <h2>{{if .Recipe.ID}}Rezept bearbeiten{{else}}Neues Rezept{{end}}</h2>
+        {{if .Error}}
+        <p class="error">{{.Error}}</p>
+        {{end}}
+        <form method="POST" action="{{if .Recipe.ID}}/rezepte/{{.Recipe.ID}}/bearbeiten{{else}}/rezepte{{end}}" enctype="multipart/form-data">
+            {{if .Recipe.ImagePath}}
+            <input type="hidden" name="image_path" value="{{.Recipe.ImagePath}}">
+            <img src="/uploads/{{.Recipe.ImagePath}}" alt="Vorschau" class="import-preview">
+            {{end}}
+
+            <label for="recipe_photo">Foto vom Gericht</label>
+            <input type="file" id="recipe_photo" name="recipe_photo" accept="image/*">
+            {{if not .Recipe.ImagePath}}<small>Optional — Foto vom fertigen Gericht.</small>{{else}}<small>Neues Foto ersetzt das bestehende.</small>{{end}}
+
+            <label for="title">Titel</label>
+            <input type="text" id="title" name="title" value="{{.Recipe.Title}}" required>
+
+            <label for="description">Kurzbeschreibung</label>
+            <input type="text" id="description" name="description" value="{{.Recipe.Description}}" placeholder="Optional">
+
+            <div class="form-row">
+                <div>
+                    <label for="category">Kategorie</label>
+                    <select id="category" name="category_id">
+                        <option value="">— Keine —</option>
+                        {{range .Categories}}
+                        <option value="{{.ID}}" {{if eq (categorySelected $.Recipe.CategoryID .ID) true}}selected{{end}}>{{.Name}}</option>
+                        {{end}}
+                    </select>
+                </div>
+                <div>
+                    <label for="servings">Portionen</label>
+                    <input type="text" id="servings" name="servings" value="{{.Recipe.Servings}}">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div>
+                    <label for="prep_time">Vorbereitungszeit</label>
+                    <input type="text" id="prep_time" name="prep_time" value="{{.Recipe.PrepTime}}" placeholder="z.B. 15 Min.">
+                </div>
+                <div>
+                    <label for="cook_time">Kochzeit</label>
+                    <input type="text" id="cook_time" name="cook_time" value="{{.Recipe.CookTime}}" placeholder="z.B. 30 Min.">
+                </div>
+            </div>
+
+            <label>Tags</label>
+            <input type="hidden" id="tags-hidden" name="tags" value="{{joinTags .Recipe.Tags}}">
+            <div class="tag-input-wrap" id="tag-input-wrap">
+                <div class="tag-chips" id="tag-chips">
+                    {{range .Recipe.Tags}}
+                    <span class="tag-chip">{{.Name}}<button type="button" class="tag-remove" onclick="removeTag(this)">&times;</button></span>
+                    {{end}}
+                </div>
+                <input type="text" id="tag-input" class="tag-field" placeholder="Tag eingeben..." autocomplete="off">
+                <div class="tag-suggest" id="tag-suggest"></div>
+            </div>
+
+            <label for="source_url">Quell-URL</label>
+            <input type="url" id="source_url" name="source_url" value="{{.Recipe.SourceURL}}" placeholder="Optional">
+
+            <label for="content_md">Rezept (Markdown)</label>
+            <textarea id="content_md" name="content_md" rows="20" required>{{.Recipe.ContentMD}}</textarea>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">{{if .Recipe.ID}}Speichern{{else}}Erstellen{{end}}</button>
+                {{if .Recipe.ID}}
+                <a href="/rezepte/{{.Recipe.ID}}" class="btn btn-outline">Abbrechen</a>
+                {{else}}
+                <a href="/rezepte" class="btn btn-outline">Abbrechen</a>
+                {{end}}
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+(function() {
+    var input = document.getElementById('tag-input');
+    var chips = document.getElementById('tag-chips');
+    var hidden = document.getElementById('tags-hidden');
+    var suggest = document.getElementById('tag-suggest');
+    var selectedIdx = -1;
+    var debounceTimer = null;
+
+    function syncHidden() {
+        var tags = [];
+        chips.querySelectorAll('.tag-chip').forEach(function(c) {
+            tags.push(c.firstChild.textContent.trim());
+        });
+        hidden.value = tags.join(', ');
+    }
+
+    function getExisting() {
+        var existing = [];
+        chips.querySelectorAll('.tag-chip').forEach(function(c) {
+            existing.push(c.firstChild.textContent.trim().toLowerCase());
+        });
+        return existing;
+    }
+
+    function addTag(name) {
+        name = name.trim();
+        if (!name) return;
+        if (getExisting().indexOf(name.toLowerCase()) !== -1) return;
+
+        var chip = document.createElement('span');
+        chip.className = 'tag-chip';
+        chip.textContent = name;
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'tag-remove';
+        btn.innerHTML = '&times;';
+        btn.onclick = function() { removeTag(btn); };
+        chip.appendChild(btn);
+        chips.appendChild(chip);
+        syncHidden();
+        hideSuggestions();
+    }
+
+    function hideSuggestions() {
+        suggest.innerHTML = '';
+        suggest.style.display = 'none';
+        selectedIdx = -1;
+    }
+
+    function showSuggestions(tags) {
+        var existing = getExisting();
+        // Filter out already-added tags
+        tags = tags.filter(function(t) {
+            return existing.indexOf(t.toLowerCase()) === -1;
+        });
+        if (tags.length === 0) { hideSuggestions(); return; }
+
+        suggest.innerHTML = '';
+        selectedIdx = -1;
+        tags.forEach(function(tag, i) {
+            var item = document.createElement('div');
+            item.className = 'tag-suggest-item';
+            item.textContent = tag;
+            item.onmousedown = function(e) {
+                e.preventDefault();
+                addTag(tag);
+                input.value = '';
+                input.focus();
+            };
+            suggest.appendChild(item);
+        });
+        suggest.style.display = 'block';
+    }
+
+    function highlightItem(idx) {
+        var items = suggest.querySelectorAll('.tag-suggest-item');
+        items.forEach(function(el, i) {
+            el.classList.toggle('active', i === idx);
+        });
+    }
+
+    function fetchSuggestions(query) {
+        if (query.length < 1) { hideSuggestions(); return; }
+        fetch('/api/tags/suggest?q=' + encodeURIComponent(query))
+            .then(function(r) { return r.json(); })
+            .then(function(tags) { showSuggestions(tags); })
+            .catch(function() { hideSuggestions(); });
+    }
+
+    input.addEventListener('input', function() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function() {
+            fetchSuggestions(input.value.trim());
+        }, 150);
+    });
+
+    input.addEventListener('keydown', function(e) {
+        var items = suggest.querySelectorAll('.tag-suggest-item');
+
+        if (e.key === 'ArrowDown' && items.length > 0) {
+            e.preventDefault();
+            selectedIdx = Math.min(selectedIdx + 1, items.length - 1);
+            highlightItem(selectedIdx);
+        } else if (e.key === 'ArrowUp' && items.length > 0) {
+            e.preventDefault();
+            selectedIdx = Math.max(selectedIdx - 1, 0);
+            highlightItem(selectedIdx);
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (selectedIdx >= 0 && items[selectedIdx]) {
+                addTag(items[selectedIdx].textContent);
+            } else {
+                addTag(input.value.replace(',', ''));
+            }
+            input.value = '';
+        } else if (e.key === ',') {
+            e.preventDefault();
+            addTag(input.value.replace(',', ''));
+            input.value = '';
+        } else if (e.key === 'Backspace' && input.value === '') {
+            var last = chips.querySelector('.tag-chip:last-child');
+            if (last) {
+                last.remove();
+                syncHidden();
+            }
+        } else if (e.key === 'Escape') {
+            hideSuggestions();
+        }
+    });
+
+    input.addEventListener('blur', function() {
+        setTimeout(function() {
+            if (input.value.trim()) {
+                addTag(input.value);
+                input.value = '';
+            }
+            hideSuggestions();
+        }, 150);
+    });
+
+    input.addEventListener('focus', function() {
+        if (input.value.trim().length >= 1) {
+            fetchSuggestions(input.value.trim());
+        }
+    });
+
+    window.removeTag = function(btn) {
+        btn.parentElement.remove();
+        syncHidden();
+    };
+
+    // Click on wrap focuses input
+    document.getElementById('tag-input-wrap').addEventListener('click', function() {
+        input.focus();
+    });
+})();
+</script>
+{{end}}

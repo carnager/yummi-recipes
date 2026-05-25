@@ -1,0 +1,26 @@
+# Runtime data
+data/
+
+# Go build output
+yummi
+.gomodcache/
+.gobuild/
+
+# Android build
+android/build/
+android/app/build/
+android/.gradle/
+android/.gomodcache/
+android/local.properties
+
+# Arch packaging artifacts
+pkg/
+src/
+*.pkg.tar.zst
+
+# IDE
+.idea/
+*.iml
+
+# OS
+.DS_Store

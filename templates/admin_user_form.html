@@ -1,0 +1,30 @@
+{{define "content"}}
+<div class="form-wrap">
+    <div class="card">
+        <h2>{{if .EditUser.ID}}Benutzer bearbeiten{{else}}Neuer Benutzer{{end}}</h2>
+        {{if .Error}}
+        <p class="error">{{.Error}}</p>
+        {{end}}
+        <form method="POST" action="{{if .EditUser.ID}}/admin/benutzer/{{.EditUser.ID}}{{else}}/admin/benutzer/neu{{end}}">
+            <label for="username">Benutzername</label>
+            <input type="text" id="username" name="username" value="{{.EditUser.Username}}" required>
+
+            <label for="display_name">Anzeigename</label>
+            <input type="text" id="display_name" name="display_name" value="{{.EditUser.DisplayName}}">
+
+            <label for="password">{{if .EditUser.ID}}Neues Passwort (leer lassen = nicht aendern){{else}}Passwort{{end}}</label>
+            <input type="password" id="password" name="password" {{if not .EditUser.ID}}required{{end}}>
+
+            <label>
+                <input type="checkbox" name="is_admin" value="1" {{if .EditUser.IsAdmin}}checked{{end}}>
+                Administrator
+            </label>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">{{if .EditUser.ID}}Speichern{{else}}Anlegen{{end}}</button>
+                <a href="/admin/benutzer" class="btn btn-outline">Abbrechen</a>
+            </div>
+        </form>
+    </div>
+</div>
+{{end}}

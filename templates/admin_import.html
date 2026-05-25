@@ -1,0 +1,19 @@
+{{define "content"}}
+<div class="import-wrap">
+    <div class="card">
+        <h2>Rezepte importieren</h2>
+        {{if .Error}}
+        <p class="error">{{.Error}}</p>
+        {{end}}
+        <form method="POST" action="/admin/import" enctype="multipart/form-data">
+            <label for="import_file">Yummi-Export (ZIP)</label>
+            <input type="file" id="import_file" name="import_file" accept=".zip" required>
+            <small>ZIP-Datei aus einem Yummi-Export. Rezepte werden als neue Eintraege angelegt.</small>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Importieren</button>
+                <a href="/admin/benutzer" class="btn btn-outline">Abbrechen</a>
+            </div>
+        </form>
+    </div>
+</div>
+{{end}}

@@ -1,0 +1,25 @@
+[Unit]
+Description=Yummi Recipe Manager
+After=network.target
+
+[Service]
+Type=simple
+User=yummi
+Group=yummi
+ExecStart=/usr/bin/yummi
+WorkingDirectory=/var/lib/yummi
+Environment=YUMMI_PORT=:8080
+Environment=YUMMI_DATA_DIR=/var/lib/yummi
+#Environment=YUMMI_OPENAI_KEY=
+Restart=on-failure
+RestartSec=5
+
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/yummi
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

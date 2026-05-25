@@ -1,0 +1,41 @@
+{{define "content"}}
+<div class="page-header">
+    <h2>Meine Rezepte</h2>
+</div>
+
+<h3 class="section-title">Eigene Rezepte</h3>
+{{if .OwnRecipes}}
+<div class="grid-recipes">
+    {{range .OwnRecipes}}
+    {{template "recipe_card" .}}
+    {{end}}
+</div>
+{{else}}
+<p class="empty-state">Du hast noch keine Rezepte erstellt.</p>
+{{end}}
+
+{{if .SharedRecipes}}
+<h3 class="section-title">Mit mir geteilt</h3>
+<div class="grid-recipes">
+    {{range .SharedRecipes}}
+    <div class="recipe-card-wrap" id="shared-{{.ID}}">
+        {{template "recipe_card" .}}
+        <button hx-post="/meine-rezepte/entfernen?recipe_id={{.ID}}&type=shared"
+                hx-target="#shared-{{.ID}}"
+                hx-swap="outerHTML"
+                hx-confirm="Geteiltes Rezept entfernen?"
+                class="btn btn-danger btn-sm card-remove-btn">Entfernen</button>
+    </div>
+    {{end}}
+</div>
+{{end}}
+
+{{if .TriedRecipes}}
+<h3 class="section-title">Probiert</h3>
+<div class="grid-recipes">
+    {{range .TriedRecipes}}
+    {{template "recipe_card" .}}
+    {{end}}
+</div>
+{{end}}
+{{end}}

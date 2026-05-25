@@ -1,0 +1,108 @@
+{{define "tried_button"}}
+{{if .Tried}}
+<button hx-post="/rezepte/{{.Recipe.ID}}/probiert"
+        hx-target="#tried-btn"
+        hx-swap="innerHTML"
+        class="btn btn-tried-active btn-sm">Probiert</button>
+{{else}}
+<button hx-post="/rezepte/{{.Recipe.ID}}/probiert"
+        hx-target="#tried-btn"
+        hx-swap="innerHTML"
+        class="btn btn-tried btn-sm">Probiert?</button>
+{{end}}
+{{end}}
+
+{{define "share_list"}}
+{{if .Users}}
+    {{range .Users}}
+    <div class="share-user">
+        <span>{{.DisplayName}}</span>
+        {{if (isSharedWith $.Recipe.ID .ID $.SharedWith)}}
+        <button hx-post="/rezepte/{{$.Recipe.ID}}/teilen?user_id={{.ID}}&action=remove"
+                hx-target="#share-list"
+                hx-swap="innerHTML"
+                class="btn btn-danger btn-sm">Entfernen</button>
+        {{else}}
+        <button hx-post="/rezepte/{{$.Recipe.ID}}/teilen?user_id={{.ID}}&action=add"
+                hx-target="#share-list"
+                hx-swap="innerHTML"
+                class="btn btn-outline btn-sm">Teilen</button>
+        {{end}}
+    </div>
+    {{end}}
+{{else}}
+    <p>Keine weiteren Benutzer vorhanden.</p>
+{{end}}
+{{end}}
+
+{{define "content"}}
+<div class="recipe-detail">
+    <h1>{{.Recipe.Title}}</h1>
+
+    {{if .Recipe.Description}}
+    <p class="recipe-desc">{{.Recipe.Description}}</p>
+    {{end}}
+
+    <div class="recipe-meta-bar">
+        {{if .Recipe.Category}}
+        <span class="recipe-meta-item"><a href="/kategorien/{{.Recipe.Category.Slug}}">{{.Recipe.Category.Name}}</a></span>
+        {{end}}
+        {{if .Recipe.PrepTime}}<span class="recipe-meta-item">Vorbereitung: {{.Recipe.PrepTime}}</span>{{end}}
+        {{if .Recipe.CookTime}}<span class="recipe-meta-item">Kochzeit: {{.Recipe.CookTime}}</span>{{end}}
+        {{if .Recipe.Servings}}<span class="recipe-meta-item">Portionen: {{.Recipe.Servings}}</span>{{end}}
+        <span class="recipe-meta-item">von {{.Recipe.AuthorName}}</span>
+    </div>
+
+    {{if .Recipe.Tags}}
+    <div class="recipe-tags">
+        {{range .Recipe.Tags}}
+        <a href="/tags/{{.Slug}}" class="tag">{{.Name}}</a>
+        {{end}}
+    </div>
+    {{end}}
+
+    {{if .User}}
+    <div class="recipe-actions-bar">
+        {{if .IsOwner}}
+        <a href="/rezepte/{{.Recipe.ID}}/bearbeiten" class="btn btn-outline btn-sm">Bearbeiten</a>
+        <button hx-delete="/rezepte/{{.Recipe.ID}}"
+                hx-confirm="Rezept wirklich loeschen?"
+                hx-target="body"
+                class="btn btn-danger btn-sm">Loeschen</button>
+        {{end}}
+        <span id="tried-btn">
+        {{template "tried_button" .}}
+        </span>
+        {{if .IsOwner}}
+        <button onclick="document.getElementById('share-dialog').showModal()" class="btn btn-outline btn-sm">Teilen</button>
+        {{end}}
+    </div>
+    {{end}}
+
+    {{if .Recipe.ImagePath}}
+    <img src="/uploads/{{.Recipe.ImagePath}}" alt="{{.Recipe.Title}}" class="recipe-image">
+    {{end}}
+
+    {{if .Recipe.SourceURL}}
+    <p class="recipe-source"><a href="{{.Recipe.SourceURL}}" target="_blank" rel="noopener">Originalrezept ansehen &rarr;</a></p>
+    {{end}}
+
+    <div class="recipe-content">
+        {{markdown .Recipe.ContentMD}}
+    </div>
+</div>
+
+{{if .IsOwner}}
+<dialog id="share-dialog">
+    <article>
+        <header>
+            <button aria-label="Schliessen" rel="prev" onclick="this.closest('dialog').close()"></button>
+            <h3>Rezept teilen</h3>
+        </header>
+        <div id="share-list">
+            {{template "share_list" .}}
+        </div>
+    </article>
+</dialog>
+{{end}}
+{{end}}

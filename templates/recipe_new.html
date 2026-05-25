@@ -1,0 +1,22 @@
+{{define "content"}}
+<div class="new-recipe-wrap">
+    <h2>Neues Rezept</h2>
+    <div class="new-recipe-options">
+        <a href="/rezepte/neu/import" class="card new-recipe-card">
+            <div class="new-recipe-icon">&#127760;</div>
+            <h3>URL Import</h3>
+            <p>Rezept von einer Webseite importieren (Chefkoch, Blogs, etc.)</p>
+        </a>
+        <a href="/rezepte/neu/llm" class="card new-recipe-card">
+            <div class="new-recipe-icon">&#129302;</div>
+            <h3>KI-Erkennung</h3>
+            <p>Text einfuegen oder Foto hochladen — die KI erstellt das Rezept</p>
+        </a>
+        <a href="/rezepte/neu/manuell" class="card new-recipe-card">
+            <div class="new-recipe-icon">&#9997;</div>
+            <h3>Manuell</h3>
+            <p>Rezept selbst eingeben mit dem Formular</p>
+        </a>
+    </div>
+</div>
+{{end}}

@@ -1,0 +1,29 @@
+{{define "recipe_card"}}
+<article class="recipe-card" id="recipe-{{.ID}}">
+    <a href="/rezepte/{{.ID}}">
+        {{if .ImagePath}}
+        <img src="/uploads/{{.ImagePath}}" alt="{{.Title}}" loading="lazy">
+        {{else}}
+        <div class="recipe-card-placeholder"></div>
+        {{end}}
+        <div class="recipe-card-body">
+            <h3>{{.Title}}</h3>
+            {{if .Description}}
+            <p class="recipe-card-desc">{{.Description}}</p>
+            {{end}}
+            <div class="recipe-card-meta">
+                {{if .PrepTime}}<span>{{.PrepTime}}</span>{{end}}
+                {{if .CookTime}}<span>{{.CookTime}}</span>{{end}}
+                <span>von {{.AuthorName}}</span>
+            </div>
+            {{if .Tags}}
+            <div class="recipe-card-tags">
+                {{range .Tags}}
+                <span class="tag">{{.Name}}</span>
+                {{end}}
+            </div>
+            {{end}}
+        </div>
+    </a>
+</article>
+{{end}}

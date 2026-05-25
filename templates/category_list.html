@@ -1,0 +1,18 @@
+{{define "content"}}
+<div class="page-header">
+    <h2>Kategorien</h2>
+</div>
+
+{{if .Categories}}
+<div class="grid-categories">
+    {{range .Categories}}
+    <a href="/kategorien/{{.Slug}}" class="category-card">
+        <span class="category-icon">{{categoryIcon .Name}}</span>
+        <span class="category-name">{{.Name}}</span>
+    </a>
+    {{end}}
+</div>
+{{else}}
+<p class="empty-state">Noch keine Kategorien vorhanden. Erstelle ein Rezept mit einer Kategorie.</p>
+{{end}}
+{{end}}

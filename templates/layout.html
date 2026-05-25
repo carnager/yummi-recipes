@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{if .Title}}{{.Title}} — {{end}}Yummi</title>
+    <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');</script>
+    <link rel="stylesheet" href="/static/pico.min.css">
+    <link rel="stylesheet" href="/static/app.css">
+    <script src="/static/htmx.min.js"></script>
+</head>
+<body>
+    <header class="site-nav">
+        <div class="container">
+            <a href="/rezepte" class="nav-brand">Yummi</a>
+            <nav class="nav-links">
+                <a href="/rezepte">Rezepte</a>
+                <a href="/kategorien">Kategorien</a>
+                {{if .User}}<a href="/meine-rezepte">Meine Rezepte</a>{{end}}
+                {{if .User}}{{if .User.IsAdmin}}<a href="/admin/benutzer">Admin</a>{{end}}{{end}}
+            </nav>
+            <div class="nav-right">
+                <button class="theme-toggle" onclick="toggleTheme()" title="Design wechseln" aria-label="Design wechseln"></button>
+                {{if .User}}
+                <span class="nav-user">{{.User.DisplayName}}</span>
+                <form method="POST" action="/abmelden" style="margin:0">
+                    <button type="submit" class="btn-logout">Abmelden</button>
+                </form>
+                {{else}}
+                <a href="/anmelden" class="btn btn-outline btn-sm">Anmelden</a>
+                {{if .RegEnabled}}<a href="/registrieren" class="btn btn-primary btn-sm">Registrieren</a>{{end}}
+                {{end}}
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        {{if .Flash}}
+        <div class="flash" role="alert">{{.Flash}}</div>
+        {{end}}
+
+        {{template "content" .}}
+    </main>
+
+    <footer>
+        <small>Yummi — Einfach lecker kochen</small>
+    </footer>
+    <script>
+    function toggleTheme() {
+        var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('theme', t);
+    }
+    </script>
+</body>
+</html>

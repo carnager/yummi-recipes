@@ -1,0 +1,10 @@
+INSERT OR IGNORE INTO categories (name, slug) VALUES ('Fruehstueck', 'fruehstueck');
+INSERT OR IGNORE INTO categories (name, slug) VALUES ('Vorspeisen', 'vorspeisen');
+INSERT OR IGNORE INTO categories (name, slug) VALUES ('Hauptgerichte', 'hauptgerichte');
+INSERT OR IGNORE INTO categories (name, slug) VALUES ('Suppen', 'suppen');
+INSERT OR IGNORE INTO categories (name, slug) VALUES ('Salate', 'salate');
+INSERT OR IGNORE INTO categories (name, slug) VALUES ('Beilagen', 'beilagen');
+INSERT OR IGNORE INTO categories (name, slug) VALUES ('Desserts', 'desserts');
+INSERT OR IGNORE INTO categories (name, slug) VALUES ('Backen', 'backen');
+INSERT OR IGNORE INTO categories (name, slug) VALUES ('Snacks', 'snacks');
+INSERT OR IGNORE INTO categories (name, slug) VALUES ('Getraenke', 'getraenke');

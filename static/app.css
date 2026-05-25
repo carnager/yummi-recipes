@@ -1,0 +1,1060 @@
+/* Yummi - Custom Styles */
+
+:root {
+    --yummi-primary: #e85d04;
+    --yummi-primary-hover: #dc2f02;
+    --yummi-radius: 12px;
+    --yummi-radius-sm: 8px;
+}
+
+[data-theme="light"] {
+    --pico-primary: var(--yummi-primary);
+    --pico-primary-hover: var(--yummi-primary-hover);
+    --pico-background-color: var(--yummi-bg);
+    --yummi-bg: #f8f9fa;
+    --yummi-bg-card: #fff;
+    --yummi-bg-placeholder: #f0e6d3;
+    --yummi-text: #2d3436;
+    --yummi-text-muted: #636e72;
+    --yummi-border: #e9ecef;
+    --yummi-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+    --yummi-shadow-hover: 0 10px 30px rgba(0,0,0,0.08);
+    --yummi-nav-bg: #fff;
+    --yummi-accent-bg: rgba(232, 93, 4, 0.08);
+    --yummi-accent-bg-light: rgba(232, 93, 4, 0.06);
+    --yummi-focus-ring: rgba(232, 93, 4, 0.1);
+    --yummi-error-bg: #ffeaa7;
+    --yummi-error-text: #d63031;
+    --yummi-flash-bg: #dfe6e9;
+    --yummi-flash-text: #2d3436;
+    --yummi-success: #00b894;
+    --yummi-success-hover: #00a381;
+    --yummi-danger: #e17055;
+    --yummi-placeholder-end: #e8d5b7;
+    --yummi-tag-suggest-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    --yummi-table-border: #eee;
+    --yummi-table-head-color: #666;
+}
+
+[data-theme="dark"] {
+    --pico-primary: var(--yummi-primary);
+    --pico-primary-hover: var(--yummi-primary-hover);
+    --pico-background-color: var(--yummi-bg);
+    --yummi-bg: #1a1a2e;
+    --yummi-bg-card: #222244;
+    --yummi-bg-placeholder: #2a2a4a;
+    --yummi-text: #e0e0e0;
+    --yummi-text-muted: #a0a0b0;
+    --yummi-border: #333355;
+    --yummi-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.3);
+    --yummi-shadow-hover: 0 10px 30px rgba(0,0,0,0.3);
+    --yummi-nav-bg: #16162a;
+    --yummi-accent-bg: rgba(232, 93, 4, 0.15);
+    --yummi-accent-bg-light: rgba(232, 93, 4, 0.1);
+    --yummi-focus-ring: rgba(232, 93, 4, 0.2);
+    --yummi-error-bg: #3d1515;
+    --yummi-error-text: #ff6b6b;
+    --yummi-flash-bg: #2a2a4a;
+    --yummi-flash-text: #e0e0e0;
+    --yummi-success: #00b894;
+    --yummi-success-hover: #00a381;
+    --yummi-danger: #e17055;
+    --yummi-placeholder-end: #3a3a5a;
+    --yummi-tag-suggest-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    --yummi-table-border: #333355;
+    --yummi-table-head-color: #a0a0b0;
+}
+
+body {
+    background: var(--yummi-bg);
+    color: var(--yummi-text);
+}
+
+/* ==================== NAV ==================== */
+.site-nav {
+    background: var(--yummi-nav-bg);
+    border-bottom: 1px solid var(--yummi-border);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.site-nav .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    gap: 1rem;
+}
+
+.nav-brand {
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--yummi-primary) !important;
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--yummi-text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--yummi-radius-sm);
+    transition: color 0.15s, background 0.15s;
+    white-space: nowrap;
+}
+
+.nav-links a:hover {
+    color: var(--yummi-primary);
+    background: var(--yummi-accent-bg-light);
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.nav-user {
+    font-size: 0.85rem;
+    color: var(--yummi-text-muted);
+    font-weight: 500;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.15rem;
+    padding: 0.25rem;
+    line-height: 1;
+    width: auto;
+    margin: 0;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+}
+
+.theme-toggle::after {
+    content: "\1F319";
+}
+
+[data-theme="dark"] .theme-toggle::after {
+    content: "\2600\FE0F";
+}
+
+.theme-toggle:hover {
+    opacity: 1;
+}
+
+.btn-logout {
+    background: none;
+    border: 1px solid var(--yummi-border);
+    color: var(--yummi-text-muted);
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+    border-radius: var(--yummi-radius-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+    width: auto;
+    margin: 0;
+}
+
+.btn-logout:hover {
+    border-color: var(--yummi-text-muted);
+    color: var(--yummi-text);
+}
+
+/* ==================== MAIN ==================== */
+main.container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* ==================== BUTTONS ==================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: var(--yummi-radius-sm);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    border: none;
+    line-height: 1.4;
+}
+
+.btn-primary {
+    background: var(--yummi-primary);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: var(--yummi-primary-hover);
+    color: #fff;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--yummi-border);
+    color: var(--yummi-text);
+}
+
+.btn-outline:hover {
+    border-color: var(--yummi-primary);
+    color: var(--yummi-primary);
+}
+
+.btn-danger {
+    background: transparent;
+    border: 1px solid var(--yummi-danger);
+    color: var(--yummi-danger);
+}
+
+.btn-danger:hover {
+    background: var(--yummi-danger);
+    color: #fff;
+}
+
+.btn-sm {
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+}
+
+.btn-tried {
+    background: transparent;
+    border: 1px solid var(--yummi-border);
+    color: var(--yummi-text-muted);
+}
+
+.btn-tried:hover {
+    border-color: var(--yummi-success);
+    color: var(--yummi-success);
+}
+
+.btn-tried-active {
+    background: var(--yummi-success);
+    border: 1px solid var(--yummi-success);
+    color: #fff;
+}
+
+.btn-tried-active:hover {
+    background: var(--yummi-success-hover);
+    border-color: var(--yummi-success-hover);
+    color: #fff;
+}
+
+/* ==================== CARDS ==================== */
+.card {
+    background: var(--yummi-bg-card);
+    border: 1px solid var(--yummi-border);
+    border-radius: var(--yummi-radius);
+    box-shadow: var(--yummi-shadow);
+    overflow: hidden;
+}
+
+/* ==================== AUTH ==================== */
+.auth-wrap {
+    max-width: 400px;
+    margin: 3rem auto;
+}
+
+.auth-wrap .card {
+    padding: 2rem;
+}
+
+.auth-wrap h2 {
+    margin: 0 0 1.5rem;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.auth-wrap .auth-link {
+    text-align: center;
+    margin-top: 1.25rem;
+    font-size: 0.9rem;
+    color: var(--yummi-text-muted);
+}
+
+/* ==================== ERRORS & FLASH ==================== */
+.error {
+    color: var(--yummi-error-text);
+    background: var(--yummi-error-bg);
+    padding: 0.75rem 1rem;
+    border-radius: var(--yummi-radius-sm);
+    border-left: 4px solid var(--yummi-error-text);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.flash {
+    background: var(--yummi-flash-bg);
+    color: var(--yummi-flash-text);
+    padding: 0.75rem 1rem;
+    border-radius: var(--yummi-radius-sm);
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--yummi-success);
+    font-size: 0.9rem;
+    animation: fadeOut 5s forwards;
+}
+
+@keyframes fadeOut {
+    0%, 80% { opacity: 1; }
+    100% { opacity: 0; display: none; }
+}
+
+/* ==================== PAGE HEADER ==================== */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+.page-header h1,
+.page-header h2 {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--yummi-text);
+}
+
+/* ==================== SEARCH ==================== */
+.search-bar {
+    margin-bottom: 1.5rem;
+}
+
+.search-bar input[type="search"] {
+    background: var(--yummi-bg-card);
+    border: 1px solid var(--yummi-border);
+    border-radius: var(--yummi-radius);
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+    transition: border-color 0.15s;
+}
+
+.search-bar input[type="search"]:focus {
+    border-color: var(--yummi-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--yummi-focus-ring);
+}
+
+/* ==================== RECIPE GRID ==================== */
+.grid-recipes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+}
+
+/* ==================== RECIPE CARD ==================== */
+.recipe-card {
+    background: var(--yummi-bg-card);
+    border: 1px solid var(--yummi-border);
+    border-radius: var(--yummi-radius);
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    box-shadow: var(--yummi-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recipe-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--yummi-shadow-hover);
+}
+
+.recipe-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.recipe-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.recipe-card-placeholder {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, var(--yummi-bg-placeholder) 0%, var(--yummi-placeholder-end) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.recipe-card-placeholder::after {
+    content: "🍴";
+    font-size: 2.5rem;
+    opacity: 0.4;
+}
+
+.recipe-card-body {
+    padding: 1rem 1.25rem 1.25rem;
+}
+
+.recipe-card-body h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--yummi-text);
+    line-height: 1.3;
+}
+
+.recipe-card-desc {
+    font-size: 0.85rem;
+    color: var(--yummi-text-muted);
+    margin: 0 0 0.6rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.5;
+}
+
+.recipe-card-meta {
+    font-size: 0.78rem;
+    color: var(--yummi-text-muted);
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.recipe-card-meta span::before {
+    content: "";
+}
+
+.recipe-card-meta span + span::before {
+    content: "·  ";
+    color: var(--yummi-text-muted);
+}
+
+.recipe-card-tags {
+    margin-top: 0.6rem;
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+/* ==================== TAGS ==================== */
+.tag {
+    display: inline-block;
+    background: var(--yummi-accent-bg);
+    color: var(--yummi-primary);
+    padding: 0.2rem 0.65rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+}
+
+a.tag:hover {
+    background: var(--yummi-primary);
+    color: #fff;
+}
+
+/* ==================== RECIPE DETAIL ==================== */
+.recipe-detail {
+    max-width: 800px;
+}
+
+.recipe-detail h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    line-height: 1.2;
+}
+
+.recipe-desc {
+    font-size: 1.05rem;
+    color: var(--yummi-text-muted);
+    margin: 0 0 0.75rem;
+    line-height: 1.5;
+}
+
+.recipe-meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.recipe-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: var(--yummi-bg);
+    padding: 0.35rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    color: var(--yummi-text-muted);
+    font-weight: 500;
+}
+
+.recipe-meta-item a {
+    color: var(--yummi-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.recipe-tags {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+}
+
+.recipe-actions-bar {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--yummi-border);
+}
+
+.recipe-image {
+    width: 100%;
+    max-height: 450px;
+    object-fit: cover;
+    border-radius: var(--yummi-radius);
+    margin-bottom: 1.5rem;
+}
+
+.recipe-source {
+    font-size: 0.85rem;
+    color: var(--yummi-text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.recipe-source a {
+    color: var(--yummi-primary);
+}
+
+.recipe-content {
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+.recipe-content h2 {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--yummi-primary);
+    color: var(--yummi-text);
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.recipe-content ul,
+.recipe-content ol {
+    padding-left: 1.25rem;
+}
+
+.recipe-content li {
+    margin-bottom: 0.5rem;
+    padding-left: 0.25rem;
+}
+
+.recipe-content li::marker {
+    color: var(--yummi-primary);
+}
+
+/* ==================== SHARE DIALOG ==================== */
+.share-user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--yummi-border);
+}
+
+.share-user:last-child {
+    border-bottom: none;
+}
+
+/* ==================== CATEGORIES ==================== */
+.grid-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+}
+
+.category-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: var(--yummi-bg-card);
+    border: 1px solid var(--yummi-border);
+    border-radius: var(--yummi-radius);
+    padding: 1.25rem 0.75rem;
+    text-align: center;
+    box-shadow: var(--yummi-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--yummi-shadow-hover);
+    border-color: var(--yummi-primary);
+}
+
+.category-icon {
+    font-size: 2rem;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.category-name {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--yummi-text);
+    white-space: nowrap;
+}
+
+/* ==================== FORMS ==================== */
+.form-wrap {
+    max-width: 700px;
+}
+
+.form-wrap .card {
+    padding: 2rem;
+}
+
+.form-wrap h2 {
+    margin: 0 0 1.5rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--yummi-border);
+}
+
+label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--yummi-text);
+    margin-bottom: 0.3rem;
+}
+
+textarea#content_md {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 0.88rem;
+    line-height: 1.6;
+}
+
+small {
+    color: var(--yummi-text-muted);
+    font-size: 0.8rem;
+}
+
+/* ==================== TAG INPUT ==================== */
+.tag-input-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+    background: var(--yummi-bg-card);
+    border: 1px solid var(--yummi-border);
+    border-radius: var(--yummi-radius-sm);
+    padding: 0.4rem 0.6rem;
+    min-height: 2.75rem;
+    cursor: text;
+    transition: border-color 0.15s;
+    margin-bottom: var(--pico-spacing);
+}
+
+.tag-input-wrap:focus-within {
+    border-color: var(--yummi-primary);
+    box-shadow: 0 0 0 3px var(--yummi-focus-ring);
+}
+
+.tag-chips {
+    display: contents;
+}
+
+.tag-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: var(--yummi-accent-bg);
+    color: var(--yummi-primary);
+    padding: 0.25rem 0.5rem;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    white-space: nowrap;
+    line-height: 1.3;
+}
+
+.tag-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--yummi-primary);
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0;
+    margin: 0 -0.1rem 0 0.1rem;
+    opacity: 0.6;
+    width: auto;
+    transition: opacity 0.15s;
+}
+
+.tag-remove:hover {
+    opacity: 1;
+}
+
+.tag-field {
+    flex: 1;
+    min-width: 120px;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 0.2rem 0 !important;
+    margin: 0 !important;
+    font-size: 0.9rem;
+    background: transparent !important;
+}
+
+.tag-input-wrap {
+    position: relative;
+}
+
+.tag-suggest {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--yummi-bg-card);
+    border: 1px solid var(--yummi-border);
+    border-top: none;
+    border-radius: 0 0 var(--yummi-radius-sm) var(--yummi-radius-sm);
+    box-shadow: var(--yummi-tag-suggest-shadow);
+    z-index: 50;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.tag-suggest-item {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+.tag-suggest-item:hover,
+.tag-suggest-item.active {
+    background: var(--yummi-accent-bg-light);
+    color: var(--yummi-primary);
+}
+
+/* ==================== NEW RECIPE CHOICE ==================== */
+.new-recipe-wrap {
+    max-width: 800px;
+}
+
+.new-recipe-wrap h2 {
+    margin: 0 0 1.5rem;
+    font-size: 1.4rem;
+}
+
+.new-recipe-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.new-recipe-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.new-recipe-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--yummi-shadow-hover);
+}
+
+.new-recipe-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.new-recipe-card h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+    color: var(--yummi-primary);
+}
+
+.new-recipe-card p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--yummi-text-muted);
+    line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+    .new-recipe-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==================== IMPORT ==================== */
+.import-wrap {
+    max-width: 600px;
+}
+
+.import-wrap .card {
+    padding: 2rem;
+}
+
+.import-wrap h2 {
+    margin: 0 0 1.25rem;
+    font-size: 1.4rem;
+}
+
+.import-preview {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: var(--yummi-radius);
+    margin-bottom: 1rem;
+}
+
+/* ==================== MY RECIPES ==================== */
+.recipe-card-wrap {
+    position: relative;
+}
+
+.card-remove-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+.recipe-card-wrap:hover .card-remove-btn {
+    opacity: 1;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--yummi-text-muted);
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--yummi-border);
+}
+
+.section-title:first-of-type {
+    margin-top: 0;
+}
+
+/* ==================== EMPTY STATE ==================== */
+.empty-state {
+    text-align: center;
+    color: var(--yummi-text-muted);
+    padding: 3rem 1rem;
+    font-size: 1rem;
+    background: var(--yummi-bg-card);
+    border: 1px dashed var(--yummi-border);
+    border-radius: var(--yummi-radius);
+}
+
+/* ==================== ADMIN ==================== */
+.admin-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    margin-bottom: 0;
+    table-layout: auto;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--yummi-table-border);
+    font-size: 0.9rem;
+}
+
+.admin-table th {
+    font-weight: 600;
+    font-size: 0.78rem;
+    color: var(--yummi-table-head-color);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.admin-actions form {
+    margin: 0;
+    padding: 0;
+}
+
+.admin-actions .btn {
+    padding: 0.25rem 0.6rem !important;
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+    white-space: nowrap;
+}
+
+.admin-wrap > .card {
+    padding: 2rem;
+    overflow-x: auto;
+}
+
+.admin-settings {
+    padding: 0.75rem 0;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--yummi-table-border);
+}
+
+.admin-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0;
+}
+
+.admin-toggle-row label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+/* ==================== DARK MODE OVERRIDES ==================== */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+    background: var(--yummi-bg);
+    border-color: var(--yummi-border);
+    color: var(--yummi-text);
+}
+
+[data-theme="dark"] .tag-field {
+    color: var(--yummi-text) !important;
+}
+
+[data-theme="dark"] .tag-suggest-item {
+    color: var(--yummi-text);
+}
+
+[data-theme="dark"] .btn-outline {
+    border-color: var(--yummi-border);
+    color: var(--yummi-text);
+}
+
+/* ==================== FOOTER ==================== */
+footer {
+    text-align: center;
+    padding: 2.5rem 0 1.5rem;
+    color: var(--yummi-text-muted);
+    font-size: 0.82rem;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .grid-recipes {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-categories {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+
+    .recipe-detail h1 {
+        font-size: 1.5rem;
+    }
+
+    .recipe-actions-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .site-nav .container {
+        flex-wrap: wrap;
+    }
+}

@@ -1,0 +1,26 @@
+{{define "content"}}
+<div class="auth-wrap">
+    <div class="card">
+        <h2>Registrieren</h2>
+        {{if .Error}}
+        <p class="error">{{.Error}}</p>
+        {{end}}
+        <form method="POST" action="/registrieren">
+            <label for="username">Benutzername</label>
+            <input type="text" id="username" name="username" required autofocus>
+
+            <label for="display_name">Anzeigename</label>
+            <input type="text" id="display_name" name="display_name" placeholder="Optional">
+
+            <label for="password">Passwort</label>
+            <input type="password" id="password" name="password" required minlength="6">
+
+            <label for="password2">Passwort wiederholen</label>
+            <input type="password" id="password2" name="password2" required minlength="6">
+
+            <button type="submit" class="btn btn-primary" style="width:100%;margin-top:0.5rem">Registrieren</button>
+        </form>
+        <p class="auth-link">Bereits ein Konto? <a href="/anmelden">Anmelden</a></p>
+    </div>
+</div>
+{{end}}
