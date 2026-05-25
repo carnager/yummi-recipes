@@ -61,7 +61,10 @@ fun RecipeDetailScreen(
     if (showShareSheet && recipe != null) {
         ShareBottomSheet(
             recipeId = recipe!!.id,
+            recipeTitle = recipe!!.title,
+            serverUrl = serverUrl,
             currentUserId = currentUserId,
+            isOwner = recipe!!.createdBy == currentUserId,
             api = api,
             onDismiss = { showShareSheet = false },
         )
@@ -246,24 +249,24 @@ fun RecipeDetailScreen(
                             }
                         }
 
-                        // Share button
-                        if (r.createdBy == currentUserId) {
-                            FilledTonalButton(
-                                onClick = {
-                                    view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-                                    showShareSheet = true
-                                },
-                                shape = RoundedCornerShape(12.dp),
-                            ) {
-                                Icon(
-                                    Icons.Default.Share,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(18.dp),
-                                )
-                                Spacer(modifier = Modifier.width(6.dp))
-                                Text("Teilen")
-                            }
+                        // Share button (available to all users)
+                        FilledTonalButton(
+                            onClick = {
+                                view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+                                showShareSheet = true
+                            },
+                            shape = RoundedCornerShape(12.dp),
+                        ) {
+                            Icon(
+                                Icons.Default.Share,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp),
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text("Teilen")
+                        }
 
+                        if (r.createdBy == currentUserId) {
                             FilledTonalButton(
                                 onClick = { onEdit(r.id) },
                                 shape = RoundedCornerShape(12.dp),
